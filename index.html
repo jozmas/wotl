@@ -266,15 +266,6 @@
                     <i class="fa-solid fa-stop"></i> Stop
                 </button>
             </div>
-
-            <div id="gospel-share" class="mt-10 pt-8 border-t border-white/10 hidden text-center">
-                <p class="text-gray-500 text-[10px] uppercase tracking-[0.25em] mb-6 font-sans font-bold">Share Today's Word</p>
-                <div class="flex flex-wrap justify-center gap-3">
-                    <button onclick="shareLink('copy')" class="flex items-center gap-2 px-5 py-2.5 bg-bible-gold/10 hover:bg-bible-gold hover:text-deep-faith text-bible-gold rounded-xl text-xs font-bold transition-all border border-bible-gold/20">
-                        <i class="fa-solid fa-link"></i> Copy Link
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 </section>
@@ -290,22 +281,35 @@ document.addEventListener('DOMContentLoaded', () => {
     let speechQueue = [];
     let currentPart = 0;
 
-    // Hard reset for system voices
+    // Aggressive silence for system voices to prevent overlap
     const silenceSystem = () => {
         if ('speechSynthesis' in window) {
             window.speechSynthesis.cancel();
-            window.speechSynthesis.speak = () => {}; 
+            // Temporary override to prevent background execution
+            const originalSpeak = window.speechSynthesis.speak;
+            window.speechSynthesis.speak = () => {};
+            setTimeout(() => { window.speechSynthesis.speak = originalSpeak; }, 100);
         }
     };
 
-    // Logic to play the high-quality voice stream
     const playSpeechQueue = () => {
         if (currentPart < speechQueue.length) {
             const textPart = speechQueue[currentPart].trim();
             if (textPart.length > 2) {
-                audio.src = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(textPart)}&tl=en&client=tw-ob`;
-                audio.playbackRate = 1.18; // Natural fast speed
-                audio.play();
+                // Using HTTPS and specific client parameter for better GitHub Pages compatibility
+                const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(textPart)}&tl=en&client=tw-ob&ttsspeed=1`;
+                
+                audio.src = url;
+                audio.playbackRate = 1.18; // Keep the human-like speed
+                
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.error("Playback failed on GitHub Pages:", error);
+                        // Fallback: If Google is blocked, reset UI
+                        resetUI();
+                    });
+                }
                 currentPart++;
             } else {
                 currentPart++;
@@ -321,18 +325,17 @@ document.addEventListener('DOMContentLoaded', () => {
         audio.pause();
         currentPart = 0;
         
-        // Get whatever text is currently inside the gospel-content div
+        // Extract text only when button is clicked
         const textToRead = gospelContent.innerText;
-        
-        // Split text by sentences
         speechQueue = textToRead.match(/[^.!?]+[.!?]+/g) || [textToRead];
         
         readBtn.innerHTML = '<i class="fa-solid fa-circle-play animate-pulse"></i> <span>Reading...</span>';
         playSpeechQueue();
     });
 
+    audio.onended = () => playSpeechQueue();
+    // Ensure speed stays consistent across chunks
     audio.onplay = () => { audio.playbackRate = 1.18; };
-    audio.onended = () => { playSpeechQueue(); };
 
     stopBtn.addEventListener('click', () => {
         audio.pause();
@@ -345,13 +348,10 @@ document.addEventListener('DOMContentLoaded', () => {
         readBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i> <span>Listen to Gospel</span>';
     }
 
-    /** * IMPORTANT: This observer watches when your other script 
-     * finishes loading the real gospel text and then shows the buttons.
-     */
+    // Observer to show controls once text is loaded by your external script
     const observer = new MutationObserver(() => {
         if (!gospelContent.querySelector('.gospel-loading')) {
             audioControls.classList.remove('hidden');
-            document.getElementById('gospel-share').classList.remove('hidden');
         }
     });
 
