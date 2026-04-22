@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -170,6 +171,7 @@
             <button onclick="navigateTo('home', 'videos')" class="nav-link text-[11px] xl:text-[13px] font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Books</button>
             <button onclick="navigateTo('home', 'miracles')" class="nav-link text-[11px] xl:text-[13px] font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Miracles</button>
             <button onclick="navigateTo('bethlehem')" class="nav-link text-[11px] xl:text-[13px] font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Bethlehem</button>
+             <button onclick="navigateTo('jordan')" class="nav-link text-[11px] xl:text-[13px] font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Jordan</button>
             <button onclick="navigateTo('calvary')" class="nav-link text-[11px] xl:text-[13px] font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Calvary</button>
             <button onclick="navigateTo('eucharist')" class="nav-link text-[11px] xl:text-[13px] font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Eucharist</button>
             <button onclick="navigateTo('apostles')" class="nav-link text-[11px] xl:text-[13px] font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Apostles</button>
@@ -199,6 +201,7 @@
                 <button onclick="navigateTo('home', 'videos')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all">Books</button>
                 <button onclick="navigateTo('home', 'miracles')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all">37 Miracles</button>
                 <button onclick="navigateTo('bethlehem')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all">Bethlehem</button>
+                <button onclick="navigateTo('jordan')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all">Jordan</button>
                 <button onclick="navigateTo('calvary')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all">Calvary</button>
                 <button onclick="navigateTo('eucharist')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all">Eucharist</button>
                 <button onclick="navigateTo('apostles')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all">Apostles</button>
@@ -838,9 +841,99 @@
         </div>
     </section>
 </div>
-    
-    
-    
+<div id="view-jordan" class="view-section hidden">
+    <header id="jordan-header" class="page-header relative min-h-[90vh] flex items-start justify-center overflow-hidden pt-32 md:pt-40">
+        <div class="absolute inset-0 z-0">
+            <img src="https://raw.githubusercontent.com/jozmas/my-images/main/jordan.avif" 
+                  class="w-full h-full object-cover opacity-30 scale-105" alt="Jordan River Background">
+            <div class="absolute inset-0 bg-gradient-to-b from-[#020617]/10 via-[#020617]/50 to-[#020617]"></div>
+        </div>
+
+        <div class="header-content text-center px-4 max-w-4xl mx-auto z-10 article-hidden pb-10">
+            <div class="mb-6 flex justify-center">
+                <i class="fa-solid fa-water text-4xl md:text-5xl text-bible-gold text-glow-gold animate-pulse"></i>
+            </div>
+            <h1 class="font-header text-4xl md:text-7xl font-bold text-white mb-6 md:mb-8 leading-tight uppercase">
+                Holy <span class="text-bible-gold text-glow-gold">Jordan</span>
+            </h1>
+            
+            <div class="max-w-2xl mx-auto">
+                <span class="text-bible-gold font-sans font-bold tracking-[0.3em] uppercase text-[10px] block mb-2">Matthew 3:16</span>
+                <p class="text-base md:text-xl text-gray-300 mb-10 font-light leading-relaxed italic">
+                    "As soon as Jesus was baptized, he went up out of the water. At that moment heaven was opened, and he saw the Spirit of God descending like a dove and alighting on him."
+                </p>
+            </div>
+            
+            <div class="flex justify-center mt-32 md:mt-40">
+                <button onclick="scrollToId('jordan-content-section')" class="px-8 md:px-12 py-4 md:py-5 bg-bible-gold text-deep-faith font-header font-bold rounded-xl hover:scale-105 transition-all text-sm md:text-base shadow-lg shadow-bible-gold/20">
+                    Explore Baptism Site
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section id="jordan-content-section" class="py-24">
+        <div class="max-w-6xl mx-auto px-6">
+            <div id="jordan-container" class="glass rounded-[2.5rem] p-8 md:p-12 border border-white/10 relative shadow-2xl">
+                
+                <div class="grid lg:grid-cols-2 gap-12 md:gap-16 items-start">
+                    
+                    <div class="space-y-10 article-hidden">
+                        <section>
+                            <span class="text-bible-gold font-sans font-bold tracking-[0.3em] uppercase text-[10px] block mb-4">Gospel of Matthew</span>
+                            <h2 class="font-header text-3xl md:text-4xl text-white mb-8">The Baptism</h2>
+                            
+                            <div class="bg-white/5 p-6 md:p-8 rounded-3xl border-l-4 border-bible-gold mb-8 shadow-xl">
+                                <p class="text-gray-200 italic leading-relaxed text-lg mb-4 font-body">
+                                    "I indeed baptize you with water unto repentance: but he that cometh after me is mightier than I... he shall baptize you with the Holy Ghost, and with fire."
+                                </p>
+                                <p class="text-bible-gold font-bold text-xs tracking-widest uppercase">— Matthew 3:11</p>
+                            </div>
+
+                            <p class="text-gray-400 leading-relaxed font-body text-lg">
+                                Qasr el-Yahud (or Al-Maghtas) on the Jordan River is the traditional location where John the Baptist baptized Jesus. This event marks the beginning of Christ’s public ministry and the manifestation of the Holy Trinity.
+                            </p>
+                        </section>
+                    </div>
+
+                    <div class="lg:sticky lg:top-24 space-y-10 article-hidden">
+                        <section>
+                            <span class="text-bible-gold font-sans font-bold tracking-[0.3em] uppercase text-[10px] block mb-4">Sacred Location</span>
+                            
+                            <div class="rounded-[2rem] overflow-hidden image-border shadow-2xl mb-8">
+                                <img src="https://raw.githubusercontent.com/jozmas/my-images/main/Al-Maghtas : Qasr el-Yahud.avif" 
+                                      alt="Jordan Baptism Map" 
+                                      class="w-full h-auto">
+                            </div>
+
+                            <div class="bg-bible-gold/5 p-6 md:p-8 rounded-3xl border border-bible-gold/20">
+                                <div class="flex items-center gap-5 mb-6">
+                                    <div class="w-12 h-12 rounded-xl bg-bible-gold/10 flex items-center justify-center text-bible-gold text-xl">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-white font-bold text-lg uppercase tracking-tight font-header">Al-Maghtas / Qasr el-Yahud</h3>
+                                        <p class="text-gray-500 text-sm font-sans tracking-widest">31.8372° N, 35.5506° E</p>
+                                    </div>
+                                </div>
+                                
+                                <p class="text-gray-400 text-sm leading-relaxed mb-8 font-sans">
+                                    This sacred site on the eastern bank of the Jordan River is recognized as the place of the baptism of Jesus and is a site of deep spiritual pilgrimage.
+                                </p>
+
+                                <a href="https://www.google.com/maps/search/?api=1&query=31.8372,35.5506" 
+                                    target="_blank" 
+                                    class="flex items-center justify-center gap-3 w-full py-4 bg-bible-gold text-deep-faith font-bold rounded-xl hover:bg-white transition-all uppercase text-xs tracking-widest shadow-lg active:scale-95">
+                                    <i class="fa-solid fa-location-arrow"></i> Open in Maps
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 <div id="view-calvary" class="view-section pt-32 pb-20 hidden">
     <section id="calvary" class="px-6 relative overflow-hidden">
         <div class="max-w-7xl mx-auto">
