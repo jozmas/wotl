@@ -169,70 +169,96 @@
             <button onclick="navigateTo('home')" class="nav-link text-[10px] xl:text-[11px] font-bold text-white hover:text-bible-gold px-2 py-1 transition-all whitespace-nowrap border-r border-white/5">HOME</button>
             
             <div class="flex items-center border-r border-white/5 px-1">
-                <button onclick="navigateTo('bethlehem')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1 whitespace-nowrap">Bethlehem</button>
-                <button onclick="navigateTo('jordan')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1 whitespace-nowrap">Jordan</button>
-                <button onclick="navigateTo('calvary')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1 whitespace-nowrap">Calvary</button>
-                <button onclick="navigateTo('eucharist')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1 whitespace-nowrap">Eucharist</button>
-                <button onclick="navigateTo('holysee')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1 whitespace-nowrap">Holy See</button>
+                <button onclick="navigateTo('bethlehem')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Bethlehem</button>
+                <button onclick="navigateTo('jordan')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Jordan</button>
+                <button onclick="navigateTo('calvary')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Calvary</button>
+                <button onclick="navigateTo('eucharist')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Eucharist</button>
+                <button onclick="navigateTo('holysee')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Holy See</button>
             </div>
 
             <div class="flex items-center border-r border-white/5 px-1">
-                <button onclick="navigateTo('home', 'videos')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1 whitespace-nowrap">Books</button>
-                <button onclick="navigateTo('home', 'miracles')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1 whitespace-nowrap">Miracles</button>
-                <button onclick="navigateTo('apostles')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1 whitespace-nowrap">Apostles</button>
-                <button onclick="navigateTo('prayers')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1 whitespace-nowrap">Rosary</button>
-                <button onclick="navigateTo('holymass')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1 whitespace-nowrap">Mass</button>
-                <button onclick="navigateTo('saints')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1 whitespace-nowrap">Saints</button>
+                <button onclick="navigateTo('holymass')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Mass</button>
+                <button onclick="navigateTo('saints')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Saints</button>
+                <button onclick="navigateTo('prayers')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Rosary</button>
+                <button onclick="navigateTo('home', 'miracles')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Miracles</button>
             </div>
 
-            <div class="flex items-center gap-x-0.5 bg-bible-gold/5 rounded-full px-2 py-0.5 ml-1 border border-bible-gold/10">
-                <button onclick="navigateTo('scripture')" class="text-[9px] xl:text-[10px] font-bold text-bible-gold hover:text-white px-1.5 py-1 whitespace-nowrap uppercase">R1</button>
-                <button onclick="navigateTo('psalm')" class="text-[9px] xl:text-[10px] font-bold text-bible-gold hover:text-white px-1.5 py-1 whitespace-nowrap uppercase">Psalm</button>
-                <button onclick="navigateTo('reading2')" class="text-[9px] xl:text-[10px] font-bold text-bible-gold hover:text-white px-1.5 py-1 whitespace-nowrap uppercase">R2</button>
-                <button onclick="navigateTo('alleluia')" class="text-[9px] xl:text-[10px] font-bold text-bible-gold hover:text-white px-1.5 py-1 whitespace-nowrap uppercase">Alleluia</button>
-                <button onclick="navigateTo('home', 'gospel')" class="text-[9px] xl:text-[10px] font-bold text-white bg-bible-gold/20 rounded-lg px-1.5 py-1 whitespace-nowrap uppercase shadow-sm">Gospel</button>
+            <div class="flex items-center gap-x-0.5 bg-bible-gold/5 rounded-full px-2 py-0.5 ml-1 border border-bible-gold/10 shadow-inner">
+                <button onclick="navigateTo('scripture')" class="text-[9px] xl:text-[10px] font-bold text-bible-gold hover:text-white px-1.5 py-1 uppercase">R1</button>
+                <button onclick="navigateTo('psalm')" class="text-[9px] xl:text-[10px] font-bold text-bible-gold hover:text-white px-1.5 py-1 uppercase">Psalm</button>
+                <button onclick="navigateTo('reading2')" class="text-[9px] xl:text-[10px] font-bold text-bible-gold hover:text-white px-1.5 py-1 uppercase">R2</button>
+                <button onclick="navigateTo('alleluia')" class="text-[9px] xl:text-[10px] font-bold text-bible-gold hover:text-white px-1.5 py-1 uppercase border-r border-bible-gold/20 mr-1 pr-2">Alleluia</button>
+                <button onclick="navigateTo('home', 'gospel')" class="text-[9px] xl:text-[10px] font-bold text-white bg-bible-gold/30 hover:bg-bible-gold/50 rounded-lg px-2 py-1 uppercase transition-all">Gospel</button>
             </div>
         </div>
 
         <div class="hidden lg:flex items-center justify-end shrink-0 ml-2">
-            <a href="https://www.youtube.com/@WOTLdaily" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-full text-[10px] font-bold transition-all flex items-center gap-1.5 shadow-lg shadow-red-900/20">
+            <a href="https://www.youtube.com/@WOTLdaily" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-full text-[10px] font-bold transition-all flex items-center gap-2 shadow-lg shadow-red-900/20">
                 <i class="fa-brands fa-youtube"></i> <span>SUBSCRIBE</span>
             </a>
         </div>
 
-        <button onclick="toggleMenu()" class="lg:hidden text-white p-2 relative z-[102]">
-            <i class="fa-solid fa-bars text-2xl"></i>
+        <button onclick="toggleMenu()" class="lg:hidden text-white p-2 relative z-[102] hover:text-bible-gold transition-colors">
+            <i class="fa-solid fa-bars-staggered text-2xl"></i>
         </button>
     </div>
 
-    <div id="mobile-menu" class="hidden lg:hidden mt-3 absolute left-4 right-4 z-[99]">
-        <div class="glass rounded-[2rem] p-4 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] max-h-[80vh] overflow-y-auto custom-scrollbar">
-            <div class="flex flex-col space-y-1">
-                <button onclick="navigateTo('home')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all text-sm font-bold border-b border-white/5 mb-1">HOME</button>
-                
-                <p class="text-[10px] text-bible-gold font-bold px-5 mt-2 uppercase tracking-widest">Daily Liturgy</p>
-                <button onclick="navigateTo('scripture')" class="text-left text-white px-5 py-2.5 hover:bg-white/5 rounded-xl transition-all text-sm flex items-center gap-3"><i class="fa-solid fa-book text-bible-gold text-xs"></i> Reading 1</button>
-                <button onclick="navigateTo('psalm')" class="text-left text-white px-5 py-2.5 hover:bg-white/5 rounded-xl transition-all text-sm flex items-center gap-3"><i class="fa-solid fa-scroll text-bible-gold text-xs"></i> Psalm</button>
-                <button onclick="navigateTo('reading2')" class="text-left text-white px-5 py-2.5 hover:bg-white/5 rounded-xl transition-all text-sm flex items-center gap-3"><i class="fa-solid fa-book-open text-bible-gold text-xs"></i> Reading 2</button>
-                <button onclick="navigateTo('alleluia')" class="text-left text-white px-5 py-2.5 hover:bg-white/5 rounded-xl transition-all text-sm flex items-center gap-3"><i class="fa-solid fa-cross text-bible-gold text-xs"></i> Alleluia</button>
-                <button onclick="navigateTo('home', 'gospel')" class="text-left text-white px-5 py-2.5 bg-bible-gold/10 rounded-xl transition-all text-sm flex items-center gap-3 font-bold"><i class="fa-solid fa-star text-bible-gold text-xs"></i> Today's Gospel</button>
+    <div id="mobile-menu" class="hidden lg:hidden fixed inset-x-4 top-20 z-[99]">
+        <div class="glass rounded-[2rem] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.7)] flex flex-col overflow-hidden transition-all duration-300 transform origin-top" 
+             style="max-height: calc(100vh - 120px);">
+            
+            <div class="overflow-y-auto p-5 custom-scrollbar" style="-webkit-overflow-scrolling: touch;">
+                <div class="flex flex-col space-y-1">
+                    <button onclick="navigateTo('home')" class="text-left text-white px-5 py-4 hover:bg-white/5 rounded-2xl transition-all text-sm font-bold border-b border-white/5 mb-2">HOME</button>
+                    
+                    <p class="text-[10px] text-bible-gold font-black px-5 mt-4 mb-2 uppercase tracking-[0.2em] opacity-80">Today's Liturgy</p>
+                    <button onclick="navigateTo('scripture')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-xl transition-all text-sm flex items-center gap-4"><i class="fa-solid fa-book text-bible-gold/50 w-5"></i> Reading 1</button>
+                    <button onclick="navigateTo('psalm')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-xl transition-all text-sm flex items-center gap-4"><i class="fa-solid fa-scroll text-bible-gold/50 w-5"></i> Responsorial Psalm</button>
+                    <button onclick="navigateTo('reading2')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-xl transition-all text-sm flex items-center gap-4"><i class="fa-solid fa-book-open text-bible-gold/50 w-5"></i> Reading 2</button>
+                    <button onclick="navigateTo('alleluia')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-xl transition-all text-sm flex items-center gap-4"><i class="fa-solid fa-cross text-bible-gold/50 w-5"></i> Alleluia</button>
+                    <button onclick="navigateTo('home', 'gospel')" class="text-left text-white px-5 py-3.5 bg-bible-gold/10 rounded-xl transition-all text-sm flex items-center gap-4 font-bold border border-bible-gold/20"><i class="fa-solid fa-star text-bible-gold w-5"></i> Today's Gospel</button>
 
-                <p class="text-[10px] text-gray-500 font-bold px-5 mt-4 uppercase tracking-widest">Holy Places & Content</p>
-                <button onclick="navigateTo('bethlehem')" class="text-left text-gray-300 px-5 py-2 hover:bg-white/5 rounded-xl text-sm italic">Bethlehem</button>
-                <button onclick="navigateTo('jordan')" class="text-left text-gray-300 px-5 py-2 hover:bg-white/5 rounded-xl text-sm italic">Jordan</button>
-                <button onclick="navigateTo('calvary')" class="text-left text-gray-300 px-5 py-2 hover:bg-white/5 rounded-xl text-sm italic">Calvary</button>
-                <button onclick="navigateTo('eucharist')" class="text-left text-gray-300 px-5 py-2 hover:bg-white/5 rounded-xl text-sm italic">Eucharist</button>
-                <button onclick="navigateTo('holysee')" class="text-left text-gray-300 px-5 py-2 hover:bg-white/5 rounded-xl text-sm italic">Holy See</button>
+                    <p class="text-[10px] text-gray-500 font-black px-5 mt-6 mb-2 uppercase tracking-[0.2em] opacity-80">Holy Sites</p>
+                    <button onclick="navigateTo('bethlehem')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Bethlehem</button>
+                    <button onclick="navigateTo('jordan')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Jordan</button>
+                    <button onclick="navigateTo('calvary')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Calvary</button>
+                    <button onclick="navigateTo('eucharist')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Eucharist</button>
+                    <button onclick="navigateTo('holysee')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Holy See</button>
 
-                <div class="pt-4 mt-2 border-t border-white/10">
-                    <a href="https://www.youtube.com/@WOTLdaily" target="_blank" class="w-full bg-red-600 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2">
-                        <i class="fa-brands fa-youtube"></i> Subscribe on YouTube
-                    </a>
+                    <p class="text-[10px] text-gray-500 font-black px-5 mt-6 mb-2 uppercase tracking-[0.2em] opacity-80">Devotionals</p>
+                    <button onclick="navigateTo('holymass')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Holy Mass</button>
+                    <button onclick="navigateTo('saints')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Saints</button>
+                    <button onclick="navigateTo('prayers')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Rosary</button>
+                    <button onclick="navigateTo('home', 'miracles')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Miracles of Jesus</button>
+                    <button onclick="navigateTo('home', 'videos')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Books of the Bible</button>
+
+                    <div class="pt-6 mt-4 border-t border-white/10 pb-2">
+                        <a href="https://www.youtube.com/@WOTLdaily" target="_blank" class="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-2xl font-bold text-xs flex items-center justify-center gap-3 shadow-xl transition-all active:scale-95">
+                            <i class="fa-brands fa-youtube text-lg"></i> SUBSCRIBE ON YOUTUBE
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </nav>
+
+<style>
+    /* Custom thin scrollbar for the mobile menu */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(212, 175, 55, 0.2);
+        border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(212, 175, 55, 0.4);
+    }
+</style>
 <style>
 /* Custom scrollbar pre mobilné menu */
 .custom-scrollbar::-webkit-scrollbar {
