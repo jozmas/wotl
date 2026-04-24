@@ -1,6 +1,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -180,6 +181,7 @@
             <button onclick="navigateTo('saints')" class="nav-link font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Saints</button>
             <button onclick="navigateTo('scripture')" class="nav-link font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Reading1</button>
             <button onclick="navigateTo('psalm')" class="nav-link font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Psalms</button>
+           <button onclick="navigateTo('alleluia')" class="nav-link font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Alleluia</button>
         </div>
 
         <div class="hidden lg:flex items-center justify-end shrink-0 min-w-[100px] lg:min-w-[150px]">
@@ -211,6 +213,7 @@
                 <button onclick="navigateTo('saints')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all text-sm">Saints</button>
                 <button onclick="navigateTo('scripture')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all text-sm">Reading1</button>
                 <button onclick="navigateTo('psalm')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all text-sm">Psalms</button>
+                <button onclick="navigateTo('alleluia')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all text-sm">Alleluia</button>
                 
                 <div class="pt-4 mt-2 border-t border-white/10">
                     <a href="https://www.youtube.com/@WOTLdaily" target="_blank" class="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-colors shadow-lg shadow-red-900/20">
@@ -2034,6 +2037,139 @@ function copyToClipboard(text, el) {
 }
 
 document.addEventListener('DOMContentLoaded', getDailyPsalm);
+</script>
+<div id="view-alleluia" class="view-section hidden">
+    <section id="alleluia" class="pt-24 pb-12 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-10 article-hidden">
+                <h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic leading-tight">
+                    Gospel <span class="text-bible-gold text-stroke-gold">Acclamation</span>
+                </h2>
+                <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
+            </div>
+
+            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl overflow-hidden article-hidden" 
+                 style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
+                
+                <div id="alleluia-specific-title" class="text-bible-gold font-serif italic text-xl md:text-2xl mb-8 border-b border-white/10 pb-4 hidden text-center md:text-left">
+                </div>
+
+                <div id="alleluia-content">
+                    <div id="alleluia-loader" class="flex flex-col items-center justify-center py-20">
+                        <div class="relative">
+                            <i class="fa-solid fa-cross text-bible-gold/50 text-5xl animate-pulse"></i>
+                        </div>
+                        <p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Preparing the Alleluia...</p>
+                    </div>
+                </div>
+
+                <div id="alleluia-controls" class="mt-12 flex flex-wrap justify-center gap-4 hidden border-t border-white/5 pt-8">
+                    <button onclick="shareAlleluia()" class="group flex items-center gap-3 px-8 py-3.5 bg-bible-gold text-[#020617] rounded-2xl font-black hover:bg-white transition-all shadow-xl text-xs uppercase tracking-widest">
+                        <i class="fa-solid fa-link group-hover:rotate-12 transition-transform"></i>
+                        <span id="share-text-alleluia">Share Link</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+    .alleluia-body { font-family: 'Georgia', serif; color: #e2e8f0; line-height: 2; font-size: 1.5rem; text-align: center; }
+    .alleluia-body b, .alleluia-body strong { color: #d4af37; display: block; margin-bottom: 1rem; font-weight: 800; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.2em; }
+    .alleluia-body p { margin-bottom: 1.5rem; font-style: italic; color: #fff; }
+    /* Skrytie nepotrebných USCCB prvkov */
+    .alleluia-body audio, .alleluia-body .audio-link, .alleluia-body .address, .alleluia-body h3, .alleluia-body .name, .alleluia-body .sharing-tool { display: none !important; }
+</style>
+
+<script>
+async function getDailyAlleluia() {
+    const display = document.getElementById('alleluia-content');
+    const specificTitleEl = document.getElementById('alleluia-specific-title');
+    const controls = document.getElementById('alleluia-controls');
+    
+    const d = new Date();
+    const dateStr = `${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}${d.getFullYear().toString().slice(-2)}`;
+    const cacheKey = `alleluia_${dateStr}`;
+
+    const cachedData = localStorage.getItem(cacheKey);
+    if (cachedData) {
+        const parsed = JSON.parse(cachedData);
+        renderAlleluia(parsed.title, parsed.content, specificTitleEl, display, controls);
+        return;
+    }
+
+    const targetUrl = `https://bible.usccb.org/bible/readings/${dateStr}.cfm`;
+    const proxyList = [
+        { url: `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}&ts=${Date.now()}`, type: 'json' },
+        { url: `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`, type: 'text' },
+        { url: `https://thingproxy.freeboard.io/fetch/${targetUrl}`, type: 'text' }
+    ];
+
+    let success = false;
+    for (let proxy of proxyList) {
+        if (success) break;
+        try {
+            const response = await fetch(proxy.url);
+            if (!response.ok) throw new Error();
+
+            let html = (proxy.type === 'json') ? (await response.json()).contents : await response.text();
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            
+            // Hľadáme Gospel Acclamation
+            const acclamationNode = Array.from(doc.querySelectorAll('.name')).find(el => {
+                const txt = el.textContent.trim();
+                return txt.includes('Gospel Acclamation');
+            });
+
+            if (acclamationNode) {
+                let title = acclamationNode.nextElementSibling?.classList.contains('address') 
+                             ? acclamationNode.nextElementSibling.innerText.trim() 
+                             : "Alleluia";
+
+                let section = acclamationNode.closest('.line-item')?.nextElementSibling || 
+                              acclamationNode.closest('.content-header')?.nextElementSibling;
+                
+                if (section) {
+                    section.querySelectorAll('.user-facing-audio, .audio-link, .sharing-tool').forEach(el => el.remove());
+                    const content = section.innerHTML;
+
+                    localStorage.setItem(cacheKey, JSON.stringify({ title, content }));
+                    renderAlleluia(title, content, specificTitleEl, display, controls);
+                    success = true;
+                }
+            }
+        } catch (err) { console.warn("Alleluia proxy failed, trying next..."); }
+    }
+
+    if (!success) {
+        display.innerHTML = "<p class='text-center text-red-400 font-sans uppercase text-[10px] mt-4'>Acclamation unavailable. Please refresh.</p>";
+    }
+}
+
+function renderAlleluia(title, content, titleEl, contentEl, controlsEl) {
+    titleEl.innerText = title;
+    titleEl.classList.remove('hidden');
+    contentEl.innerHTML = `<div class="alleluia-body">${content}</div>`;
+    controlsEl.classList.remove('hidden');
+}
+
+function shareAlleluia() {
+    const url = window.location.href;
+    const btnText = document.getElementById('share-text-alleluia');
+    if (navigator.share) {
+        navigator.share({ title: "Today's Alleluia", url }).catch(() => copyToClipboardAlleluia(url, btnText));
+    } else { copyToClipboardAlleluia(url, btnText); }
+}
+
+function copyToClipboardAlleluia(text, el) {
+    const orig = el.innerText;
+    const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    el.innerText = "Link Copied!"; setTimeout(() => el.innerText = orig, 2000);
+}
+
+document.addEventListener('DOMContentLoaded', getDailyAlleluia);
 </script>
     <footer class="bg-black/60 backdrop-blur-xl py-12 border-t border-white/5 text-center">
         <div class="max-w-7xl mx-auto px-6 flex flex-col items-center gap-6">
