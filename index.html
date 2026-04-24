@@ -178,6 +178,7 @@
             <button onclick="navigateTo('holysee')" class="nav-link font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Holy See</button>
             <button onclick="navigateTo('holymass')" class="nav-link font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Holy Mass</button>
             <button onclick="navigateTo('saints')" class="nav-link font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Saints</button>
+            <button onclick="navigateTo('scripture')" class="nav-link font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Reading1</button>
             <button onclick="navigateTo('psalm')" class="nav-link font-sans font-medium text-gray-400 hover:text-bible-gold transition-colors px-2 py-1 whitespace-nowrap">Psalms</button>
         </div>
 
@@ -208,6 +209,7 @@
                 <button onclick="navigateTo('holysee')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all text-sm">Holy See</button>
                 <button onclick="navigateTo('holymass')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all text-sm">Holy Mass</button>
                 <button onclick="navigateTo('saints')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all text-sm">Saints</button>
+                <button onclick="navigateTo('scripture')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all text-sm">Reading1</button>
                 <button onclick="navigateTo('psalm')" class="text-left text-white px-5 py-3 hover:bg-white/5 rounded-2xl transition-all text-sm">Psalms</button>
                 
                 <div class="pt-4 mt-2 border-t border-white/10">
@@ -1755,6 +1757,149 @@
         </div>
     </section>
 </div>
+<div id="view-scripture" class="view-section hidden">
+    <section id="scripture" class="pt-24 pb-12 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-10 article-hidden">
+                <h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic leading-tight">
+                    Holy <span class="text-bible-gold text-stroke-gold">Scripture</span>
+                </h2>
+                <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
+            </div>
+
+            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl overflow-hidden article-hidden" 
+                 style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
+                
+                <div id="scripture-specific-title" class="text-bible-gold font-serif italic text-xl md:text-2xl mb-8 border-b border-white/10 pb-4 hidden text-center md:text-left">
+                </div>
+
+                <div id="scripture-content">
+                    <div id="scripture-loader" class="flex flex-col items-center justify-center py-20">
+                        <div class="relative">
+                            <i class="fa-solid fa-book-bible text-bible-gold/50 text-5xl animate-pulse"></i>
+                        </div>
+                        <p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Opening the Scriptures...</p>
+                    </div>
+                </div>
+
+                <div id="scripture-controls" class="mt-12 flex flex-wrap justify-center gap-4 hidden border-t border-white/5 pt-8">
+                    <button onclick="shareScripture()" class="group flex items-center gap-3 px-8 py-3.5 bg-bible-gold text-[#020617] rounded-2xl font-black hover:bg-white transition-all shadow-xl text-xs uppercase tracking-widest">
+                        <i class="fa-solid fa-link group-hover:rotate-12 transition-transform"></i>
+                        <span id="share-text-scripture">Share Link</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+    .scripture-body { font-family: 'Georgia', serif; color: #e2e8f0; line-height: 2; font-size: 1.25rem; }
+    .scripture-body b, .scripture-body strong { color: #d4af37; display: block; margin-top: 1.5rem; font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; }
+    .scripture-body p { margin-bottom: 1rem; font-style: italic; }
+    /* Skrytie nepotrebných USCCB prvkov */
+    .scripture-body audio, .scripture-body .audio-link, .scripture-body .address, .scripture-body h3, .scripture-body .name, .scripture-body .sharing-tool { display: none !important; }
+</style>
+
+<script>
+async function getDailyScripture() {
+    const display = document.getElementById('scripture-content');
+    const specificTitleEl = document.getElementById('scripture-specific-title');
+    const controls = document.getElementById('scripture-controls');
+    
+    const d = new Date();
+    const dateStr = `${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}${d.getFullYear().toString().slice(-2)}`;
+    const cacheKey = `scripture_${dateStr}`;
+
+    // 1. KONTROLA LOKÁLNEJ PAMÄTE
+    const cachedData = localStorage.getItem(cacheKey);
+    if (cachedData) {
+        const parsed = JSON.parse(cachedData);
+        renderScripture(parsed.title, parsed.content, specificTitleEl, display, controls);
+        return;
+    }
+
+    const targetUrl = `https://bible.usccb.org/bible/readings/${dateStr}.cfm`;
+    const proxyList = [
+        { url: `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}&ts=${Date.now()}`, type: 'json' },
+        { url: `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`, type: 'text' },
+        { url: `https://thingproxy.freeboard.io/fetch/${targetUrl}`, type: 'text' }
+    ];
+
+    let success = false;
+    for (let proxy of proxyList) {
+        if (success) break;
+        try {
+            const response = await fetch(proxy.url, { credentials: 'omit' });
+            if (!response.ok) throw new Error();
+
+            let html = (proxy.type === 'json') ? (await response.json()).contents : await response.text();
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            
+            // Flexibilnejšie hľadanie "Reading" uzla
+            const allNames = Array.from(doc.querySelectorAll('.name'));
+            const readingNode = allNames.find(el => {
+                const txt = el.textContent.trim();
+                return (txt.includes('Reading') || txt.includes('First Reading')) && !txt.includes('Gospel');
+            });
+
+            if (readingNode) {
+                let title = readingNode.nextElementSibling?.classList.contains('address') 
+                             ? readingNode.nextElementSibling.innerText.trim() 
+                             : readingNode.innerText.trim();
+
+                let section = readingNode.closest('.line-item')?.nextElementSibling || 
+                              readingNode.closest('.content-header')?.nextElementSibling;
+                
+                if (section) {
+                    // Vyčistenie od audio prvkov
+                    section.querySelectorAll('.user-facing-audio, .audio-link, .sharing-tool').forEach(el => el.remove());
+                    const content = section.innerHTML;
+
+                    localStorage.setItem(cacheKey, JSON.stringify({ title, content }));
+                    renderScripture(title, content, specificTitleEl, display, controls);
+                    success = true;
+                }
+            }
+        } catch (err) { 
+            console.warn("Scripture proxy failed, trying next..."); 
+        }
+    }
+
+    if (!success) {
+        display.innerHTML = "<p class='text-center text-red-400 font-sans uppercase text-[10px] mt-4'>Connection error. Please refresh or try again later.</p>";
+    }
+}
+
+function renderScripture(title, content, titleEl, contentEl, controlsEl) {
+    titleEl.innerText = title;
+    titleEl.classList.remove('hidden');
+    contentEl.innerHTML = `<div class="scripture-body">${content}</div>`;
+    controlsEl.classList.remove('hidden');
+}
+
+function shareScripture() {
+    const url = window.location.href;
+    const btnText = document.getElementById('share-text-scripture');
+    if (navigator.share) {
+        navigator.share({ title: "Today's Scripture", url }).catch(() => copyToClipboardScripture(url, btnText));
+    } else { copyToClipboardScripture(url, btnText); }
+}
+
+function copyToClipboardScripture(text, el) {
+    const orig = el.innerText;
+    const ta = document.createElement("textarea"); 
+    ta.value = text; 
+    document.body.appendChild(ta); 
+    ta.select();
+    document.execCommand('copy'); 
+    document.body.removeChild(ta);
+    el.innerText = "Link Copied!"; 
+    setTimeout(() => el.innerText = orig, 2000);
+}
+
+document.addEventListener('DOMContentLoaded', getDailyScripture);
+</script>
 <div id="view-psalm" class="view-section hidden">
     <section id="psalm" class="pt-24 pb-12 relative overflow-hidden">
         <div class="max-w-4xl mx-auto px-6">
