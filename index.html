@@ -176,6 +176,9 @@
                 <button onclick="navigateTo('tabor')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Tabor</button>
                 <button onclick="navigateTo('jerusalem')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Jerusalem</button>
                 <button onclick="navigateTo('calvary')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Calvary</button>
+                <button onclick="navigateTo('resurrection')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Resurrection</button>
+                <button onclick="navigateTo('olives')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Ascension</button>
+                <button onclick="navigateTo('pentecost')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Pentecost</button>
                 <button onclick="navigateTo('eucharist')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Eucharist</button>
                 <button onclick="navigateTo('holysee')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Holy See</button>
             </div>
@@ -230,6 +233,9 @@
                     <button onclick="navigateTo('tabor')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Tabor</button>
                     <button onclick="navigateTo('jerusalem')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Jerusalem</button>
                     <button onclick="navigateTo('calvary')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Calvary</button>
+                    <button onclick="navigateTo('resurrection')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Resurrection</button>
+                    <button onclick="navigateTo('olives')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Ascension</button>
+                    <button onclick="navigateTo('pentecost')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Pentecost</button>
                     <button onclick="navigateTo('eucharist')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Eucharist</button>
                     <button onclick="navigateTo('holysee')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Holy See</button>
 
@@ -1359,7 +1365,204 @@
         }
     </script>
 </div> 
+<div id="view-resurrection" class="view-section hidden">
+    <section id="resurrection-hero" class="pt-24 pb-12 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 article-hidden">
+                <div class="inline-block px-4 py-1.5 bg-bible-gold/10 border border-bible-gold/20 rounded-full mb-4">
+                    <span class="text-bible-gold text-[10px] uppercase tracking-[0.3em] font-bold">The Empty Tomb</span>
+                </div>
+                <h2 class="font-header text-5xl md:text-7xl font-bold text-white mt-4 uppercase italic leading-tight">
+                    The Holy <span class="text-bible-gold text-stroke-gold">Resurrection</span>
+                </h2>
+                <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
+                <p class="text-gray-400 max-w-2xl mx-auto mt-8 font-sans leading-relaxed tracking-wide text-sm md:text-base">
+                    This location in Jerusalem marks the Aedicule, 
+                    the shrine enclosing the tomb where Jesus Christ rose from the dead on the third day.
+                </p>
+            </div>
 
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch article-hidden">
+                <div class="glass rounded-[3rem] p-8 md:p-12 border border-white/5 relative overflow-hidden flex flex-col justify-between"
+                     style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
+                    
+                    <div>
+                        <div class="flex items-center gap-5 mb-10 group">
+                            <div class="w-14 h-14 bg-bible-gold rounded-2xl flex items-center justify-center shadow-xl shadow-bible-gold/10 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-cross text-[#020617] text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-gray-500 font-bold uppercase tracking-[0.2em] text-[10px]">Holy Sepulchre Coordinates</h4>
+                                <p class="text-white font-mono text-base md:text-lg font-bold tracking-tight">31.7785° N, 35.2296° E</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6 text-gray-200 leading-relaxed font-serif text-xl md:text-2xl italic relative">
+                            <i class="fa-solid fa-quote-left absolute -left-6 -top-4 text-bible-gold/20 text-4xl"></i>
+                            <p>"But now Christ has been raised from the dead, the firstfruits of those who have fallen asleep. For since death came through a human being, the resurrection of the dead came also through a human being."</p>
+                            <div class="flex items-center gap-3 mt-4">
+                                <div class="w-8 h-[1px] bg-bible-gold/50"></div>
+                                <p class="text-xs font-sans not-italic text-bible-gold uppercase tracking-[0.2em] font-bold">1 Corinthians 15:20-21</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12">
+                        <button onclick="window.open('https://www.google.com/maps/search/?api=1&query=31.77850623078212,35.22960293965251', '_blank')" 
+                                class="w-full bg-bible-gold hover:bg-white text-[#020617] py-5 rounded-2xl font-black transition-all shadow-2xl flex items-center justify-center gap-3 group text-[10px] uppercase tracking-[0.2em]">
+                            <i class="fa-solid fa-person-walking-arrow-right text-lg group-hover:translate-x-1 transition-transform"></i>
+                            Navigate to the Empty Tomb
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass rounded-[3rem] border border-white/5 relative overflow-hidden min-h-[450px] shadow-2xl group">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d418.5714774345388!2d35.2296029!3d31.7785062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzHCsDQ2JzQyLjYiTiAzNcKwMTMnNDYuNiJF!5e1!3m2!1sen!2ssk!4v1715694000000!5m2!1sen!2ssk" 
+                        class="absolute inset-0 w-full h-full grayscale-[0.6] contrast-[1.2] opacity-60 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-1000"
+                        style="border:0;" allowfullscreen="" loading="lazy">
+                    </iframe>
+                    <div class="absolute inset-0 pointer-events-none border-[12px] border-black/10 rounded-[3rem]"></div>
+                    <div class="absolute top-6 right-6 bg-bible-gold text-[#020617] px-4 py-1 rounded-full text-[9px] font-black tracking-widest uppercase">
+                        Golgotha Area
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div id="view-olives" class="view-section hidden">
+    <section id="olives-hero" class="pt-24 pb-12 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 article-hidden">
+                <div class="inline-block px-4 py-1.5 bg-bible-gold/10 border border-bible-gold/20 rounded-full mb-4">
+                    <span class="text-bible-gold text-[10px] uppercase tracking-[0.3em] font-bold">The Path of the Ascension</span>
+                </div>
+                <h2 class="font-header text-5xl md:text-7xl font-bold text-white mt-4 uppercase italic leading-tight">
+                    Mount of <span class="text-bible-gold text-stroke-gold">Olives</span>
+                </h2>
+                <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
+                <p class="text-gray-400 max-w-2xl mx-auto mt-8 font-sans leading-relaxed tracking-wide text-sm md:text-base">
+                    A sacred ridge overlooking Jerusalem. It is the site of Jesus' weeping over the city, 
+                    His betrayal in Gethsemane, and His glorious Ascension into Heaven.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch article-hidden">
+                <div class="glass rounded-[3rem] p-8 md:p-12 border border-white/5 relative overflow-hidden flex flex-col justify-between"
+                     style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
+                    
+                    <div>
+                        <div class="flex items-center gap-5 mb-10 group">
+                            <div class="w-14 h-14 bg-bible-gold rounded-2xl flex items-center justify-center shadow-xl shadow-bible-gold/10 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-location-dot text-[#020617] text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-gray-500 font-bold uppercase tracking-[0.2em] text-[10px]">Geographic Location</h4>
+                                <p class="text-white font-mono text-xl font-bold tracking-tight">31.7785° N, 35.2436° E</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6 text-gray-200 leading-relaxed font-serif text-xl md:text-2xl italic relative">
+                            <i class="fa-solid fa-quote-left absolute -left-6 -top-4 text-bible-gold/20 text-4xl"></i>
+                            <p>"Then he led them out as far as Bethany, raised his hands, and blessed them. As he blessed them he parted from them and was taken up to heaven."</p>
+                            <div class="flex items-center gap-3 mt-4">
+                                <div class="w-8 h-[1px] bg-bible-gold/50"></div>
+                                <p class="text-xs font-sans not-italic text-bible-gold uppercase tracking-[0.2em] font-bold">Luke 24:50-51</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12">
+                        <button onclick="window.open('https://www.google.com/maps/search/?api=1&query=31.7785,35.2436', '_blank')" 
+                                class="w-full bg-bible-gold hover:bg-white text-[#020617] py-5 rounded-2xl font-black transition-all shadow-2xl flex items-center justify-center gap-3 group text-[10px] uppercase tracking-[0.2em]">
+                            <i class="fa-solid fa-map-location-dot text-lg group-hover:rotate-12 transition-transform"></i>
+                            View Mount of Olives on Maps
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass rounded-[3rem] border border-white/5 relative overflow-hidden min-h-[450px] shadow-2xl group">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3392.5!2d35.2436!3d31.7785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1715000000000!5m2!1sen!2s" 
+                        class="absolute inset-0 w-full h-full grayscale-[0.6] contrast-[1.2] opacity-60 group-hover:opacity-90 group-hover:grayscale-0 transition-all duration-700"
+                        style="border:0;" allowfullscreen="" loading="lazy">
+                    </iframe>
+                    <div class="absolute inset-0 pointer-events-none border-[12px] border-black/10 rounded-[3rem]"></div>
+                    <div class="absolute bottom-6 left-6 bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+                        <p class="text-white text-[10px] font-bold tracking-widest uppercase text-bible-gold">Overview of Jerusalem</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div id="view-pentecost" class="view-section hidden">
+    <section id="pentecost-hero" class="pt-24 pb-12 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 article-hidden">
+                <div class="inline-block px-4 py-1.5 bg-bible-gold/10 border border-bible-gold/20 rounded-full mb-4">
+                    <span class="text-bible-gold text-[10px] uppercase tracking-[0.3em] font-bold">The Birth of the Church</span>
+                </div>
+                <h2 class="font-header text-5xl md:text-7xl font-bold text-white mt-4 uppercase italic leading-tight">
+                    Holy <span class="text-bible-gold text-stroke-gold">Pentecost</span>
+                </h2>
+                <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
+                <p class="text-gray-400 max-w-2xl mx-auto mt-8 font-sans leading-relaxed tracking-wide text-sm md:text-base">
+                    Fifty days after the Resurrection, the Holy Spirit descended upon the Apostles in the Upper Room, 
+                    igniting the fire of faith and sending the Gospel to the ends of the earth.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch article-hidden">
+                <div class="glass rounded-[3rem] p-8 md:p-12 border border-white/5 relative overflow-hidden flex flex-col justify-between"
+                     style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
+                    
+                    <div>
+                        <div class="flex items-center gap-5 mb-10 group">
+                            <div class="w-14 h-14 bg-bible-gold rounded-2xl flex items-center justify-center shadow-xl shadow-bible-gold/10 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-fire-flame-curved text-[#020617] text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-gray-500 font-bold uppercase tracking-[0.2em] text-[10px]">Cenacle GPS</h4>
+                                <p class="text-white font-mono text-xl font-bold tracking-tight">31.7719° N, 35.2291° E</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6 text-gray-200 leading-relaxed font-serif text-xl md:text-2xl italic relative">
+                            <i class="fa-solid fa-quote-left absolute -left-6 -top-4 text-bible-gold/20 text-4xl"></i>
+                            <p>"And there appeared to them tongues as of fire, which parted and came to rest on each one of them. And they were all filled with the holy Spirit and began to speak in different tongues."</p>
+                            <div class="flex items-center gap-3 mt-4">
+                                <div class="w-8 h-[1px] bg-bible-gold/50"></div>
+                                <p class="text-xs font-sans not-italic text-bible-gold uppercase tracking-[0.2em] font-bold">Acts 2:3-4</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12">
+                        <button onclick="window.open('https://www.google.com/maps/search/?api=1&query=31.77192,35.22914', '_blank')" 
+                                class="w-full bg-bible-gold hover:bg-white text-[#020617] py-5 rounded-2xl font-black transition-all shadow-2xl flex items-center justify-center gap-3 group text-[10px] uppercase tracking-[0.2em]">
+                            <i class="fa-solid fa-map-location-dot text-lg group-hover:rotate-12 transition-transform"></i>
+                            Explore the Upper Room on Maps
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass rounded-[3rem] border border-white/5 relative overflow-hidden min-h-[450px] shadow-2xl group">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1696.05!2d35.2291!3d31.7719!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDQ2JzE4LjgiTiAzNcKwMTMnNDQuOCJF!5e0!3m2!1sen!2s!4v1715456000000!5m2!1sen!2s" 
+                        class="absolute inset-0 w-full h-full grayscale-[0.6] contrast-[1.2] opacity-60 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-1000"
+                        style="border:0;" allowfullscreen="" loading="lazy">
+                    </iframe>
+                    <div class="absolute inset-0 pointer-events-none border-[12px] border-black/10 rounded-[3rem]"></div>
+                    <div class="absolute bottom-6 left-6 bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+                        <p class="text-white text-[10px] font-bold tracking-widest uppercase text-bible-gold">Mount Zion Section</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 <!-- EUCHARIST SECTION -->
 <div id="view-eucharist" class="view-section hidden">
     <header id="eucharist-header" class="page-header relative min-h-[90vh] flex items-start justify-center overflow-hidden pt-32 md:pt-40">
