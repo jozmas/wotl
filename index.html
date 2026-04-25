@@ -170,6 +170,7 @@
             
             <div class="flex items-center border-r border-white/5 px-1">
                 <button onclick="navigateTo('bethlehem')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Bethlehem</button>
+                <button onclick="navigateTo('nazareth')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Nazareth</button>
                 <button onclick="navigateTo('jordan')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Jordan</button>
                 <button onclick="navigateTo('calvary')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Calvary</button>
                 <button onclick="navigateTo('eucharist')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Eucharist</button>
@@ -220,6 +221,7 @@
 
                     <p class="text-[10px] text-gray-500 font-black px-5 mt-6 mb-2 uppercase tracking-[0.2em] opacity-80">Holy Sites</p>
                     <button onclick="navigateTo('bethlehem')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Bethlehem</button>
+                    <button onclick="navigateTo('nazareth')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Nazareth</button>
                     <button onclick="navigateTo('jordan')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Jordan</button>
                     <button onclick="navigateTo('calvary')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Calvary</button>
                     <button onclick="navigateTo('eucharist')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Eucharist</button>
@@ -793,10 +795,6 @@
             </div>
         </section>
     </div>
-    
-    
-    
-    
 <!-- BETLEHEM SECTION -->    
 <div id="view-bethlehem" class="view-section hidden">
     <header id="bethlehem-header" class="page-header relative min-h-[90vh] flex items-start justify-center overflow-hidden pt-32 md:pt-40">
@@ -889,6 +887,72 @@
         </div>
     </section>
 </div>
+<div id="view-nazareth" class="view-section hidden">
+    <section id="nazareth-hero" class="pt-24 pb-12 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 article-hidden">
+                <div class="inline-block px-4 py-1.5 bg-bible-gold/10 border border-bible-gold/20 rounded-full mb-4">
+                    <span class="text-bible-gold text-[10px] uppercase tracking-[0.3em] font-bold">The City of the Annunciation</span>
+                </div>
+                <h2 class="font-header text-5xl md:text-7xl font-bold text-white mt-4 uppercase italic leading-tight">
+                    Holy <span class="text-bible-gold text-stroke-gold">Nazareth</span>
+                </h2>
+                <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
+                <p class="text-gray-400 max-w-2xl mx-auto mt-8 font-sans leading-relaxed tracking-wide text-sm md:text-base">
+                    The childhood home of Jesus and the place where the Archangel Gabriel appeared to Mary. 
+                    A sanctuary where the "Word became flesh" and lived in silence for thirty years.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch article-hidden">
+                <div class="glass rounded-[3rem] p-8 md:p-12 border border-white/5 relative overflow-hidden flex flex-col justify-between"
+                     style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
+                    
+                    <div>
+                        <div class="flex items-center gap-5 mb-10 group">
+                            <div class="w-14 h-14 bg-bible-gold rounded-2xl flex items-center justify-center shadow-xl shadow-bible-gold/10 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-location-dot text-[#020617] text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-gray-500 font-bold uppercase tracking-[0.2em] text-[10px]">Geographic Location</h4>
+                                <p class="text-white font-mono text-xl font-bold tracking-tight">32.6996° N, 35.3035° E</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6 text-gray-200 leading-relaxed font-serif text-xl md:text-2xl italic relative">
+                            <i class="fa-solid fa-quote-left absolute -left-6 -top-4 text-bible-gold/20 text-4xl"></i>
+                            <p>"In the sixth month, the angel Gabriel was sent from God to a town of Galilee called Nazareth, to a virgin betrothed to a man named Joseph, of the house of David, and the virgin’s name was Mary."</p>
+                            <div class="flex items-center gap-3 mt-4">
+                                <div class="w-8 h-[1px] bg-bible-gold/50"></div>
+                                <p class="text-xs font-sans not-italic text-bible-gold uppercase tracking-[0.2em] font-bold">Luke 1:26-27</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12">
+                        <button onclick="window.open('https://www.google.com/maps/search/?api=1&query=32.6996,35.3035', '_blank')" 
+                                class="w-full bg-bible-gold hover:bg-white text-[#020617] py-5 rounded-2xl font-black transition-all shadow-2xl flex items-center justify-center gap-3 group text-[10px] uppercase tracking-[0.2em]">
+                            <i class="fa-solid fa-map-location-dot text-lg group-hover:rotate-12 transition-transform"></i>
+                            Explore on Google Maps
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass rounded-[3rem] border border-white/5 relative overflow-hidden min-h-[450px] shadow-2xl group">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13444.60636109312!2d35.2921503!3d32.7019232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151c4e7cf16c0271%3A0xc6387063467e3a3!2sBasilica%20of%20the%20Annunciation!5e0!3m2!1sen!2ssk!4v1700000000000!5m2!1sen!2ssk" 
+                        class="absolute inset-0 w-full h-full grayscale-[0.6] contrast-[1.2] opacity-60 group-hover:opacity-80 group-hover:grayscale-0 transition-all duration-700"
+                        style="border:0;" allowfullscreen="" loading="lazy">
+                    </iframe>
+                    <div class="absolute inset-0 pointer-events-none border-[12px] border-black/10 rounded-[3rem]"></div>
+                    <div class="absolute bottom-6 left-6 bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+                        <p class="text-white text-[10px] font-bold tracking-widest uppercase">Basilica of the Annunciation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 <div id="view-jordan" class="view-section hidden">
     <header id="jordan-header" class="page-header relative min-h-[90vh] flex items-start justify-center overflow-hidden pt-32 md:pt-40">
         <div class="absolute inset-0 z-0">
@@ -919,7 +983,6 @@
             </div>
         </div>
     </header>
-
     <section id="jordan-content-section" class="py-24">
         <div class="max-w-6xl mx-auto px-6">
             <div id="jordan-container" class="glass rounded-[2.5rem] p-8 md:p-12 border border-white/10 relative shadow-2xl">
