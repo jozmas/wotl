@@ -2696,10 +2696,45 @@ document.addEventListener('DOMContentLoaded', getDailyPsalm);
 
                 <div id="reading2-content">
                     <div id="reading2-loader" class="flex flex-col items-center justify-center py-20">
+                        <i class="fa-solid fa-scroll text-bible-gold/50 text-5xl animate-pulse"></i>
+                        <p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Fetching Second Reading...</p>
+                    </div>
+                </div>
+
+                <div id="reading2-controls" class="mt-12 flex flex-wrap justify-center gap-4 hidden border-t border-white/5 pt-8">
+                    <button onclick="shareReading2()" class="group flex items-center gap-3 px-8 py-3.5 bg-bible-gold text-[#020617] rounded-2xl font-black hover:bg-white transition-all shadow-xl text-xs uppercase tracking-widest">
+                        <i class="fa-solid fa-link group-hover:rotate-12 transition-transform"></i>
+                        <span id="share-text-reading2">Share Link</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+<div id="view-reading2" class="view-section hidden">
+    <section id="reading2" class="pt-24 pb-12 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-10 article-hidden">
+                <h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic leading-tight">
+                    Second <span class="text-bible-gold text-stroke-gold">Reading</span>
+                </h2>
+                <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
+            </div>
+
+            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl overflow-hidden article-hidden" 
+                 style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
+                
+                <div id="reading2-specific-title" class="text-bible-gold font-serif italic text-xl md:text-2xl mb-8 border-b border-white/10 pb-4 hidden text-center md:text-left">
+                </div>
+
+                <div id="reading2-content">
+                    <div id="reading2-loader" class="flex flex-col items-center justify-center py-20">
                         <div class="relative">
-                            <i class="fa-solid fa-scroll text-bible-gold/50 text-5xl animate-pulse"></i>
+                            <i class="fa-solid fa-book-bible text-bible-gold/50 text-5xl animate-pulse"></i>
                         </div>
-                        <p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Seeking the Word...</p>
+                        <p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Opening the Second Reading...</p>
                     </div>
                 </div>
 
@@ -2729,53 +2764,64 @@ async function getDailyReading2() {
     
     const d = new Date();
     const dateStr = `${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}${d.getFullYear().toString().slice(-2)}`;
-    
+    const cacheKey = `reading2_v_sync_${dateStr}`; // Unikátny kľúč
+
+    const cachedData = localStorage.getItem(cacheKey);
+    if (cachedData) {
+        const parsed = JSON.parse(cachedData);
+        renderReading2(parsed.title, parsed.content, specificTitleEl, display, controls);
+        return;
+    }
+
     const targetUrl = `https://bible.usccb.org/bible/readings/${dateStr}.cfm`;
     const proxyList = [
         { url: `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}&ts=${Date.now()}`, type: 'json' },
+        { url: `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`, type: 'text' },
         { url: `https://thingproxy.freeboard.io/fetch/${targetUrl}`, type: 'text' }
     ];
 
-    let found = false;
+    let success = false;
     for (let proxy of proxyList) {
-        if (found) break;
+        if (success) break;
         try {
-            const response = await fetch(proxy.url);
+            const response = await fetch(proxy.url, { credentials: 'omit' });
+            if (!response.ok) throw new Error();
+
             let html = (proxy.type === 'json') ? (await response.json()).contents : await response.text();
             const doc = new DOMParser().parseFromString(html, 'text/html');
             
-            // Hľadáme Reading II
-            const readingNode = Array.from(doc.querySelectorAll('.name')).find(el => 
-                el.textContent.trim().includes('Reading II')
-            );
+            const allNames = Array.from(doc.querySelectorAll('.name'));
+            
+            // KĽÚČOVÁ ZMENA: Hľadáme "Reading 2" namiesto "Reading"
+            const readingNode = allNames.find(el => {
+                const txt = el.textContent.trim();
+                return txt.includes('Reading 2') || txt.includes('Reading II');
+            });
 
             if (readingNode) {
                 let title = readingNode.nextElementSibling?.classList.contains('address') 
-                             ? readingNode.nextElementSibling.innerText.trim() 
-                             : "Second Reading";
+                              ? readingNode.nextElementSibling.innerText.trim() 
+                              : readingNode.innerText.trim();
 
                 let section = readingNode.closest('.line-item')?.nextElementSibling || 
-                              readingNode.closest('.content-header')?.nextElementSibling;
-                
+                               readingNode.closest('.content-header')?.nextElementSibling;
+                                
                 if (section) {
                     section.querySelectorAll('.user-facing-audio, .audio-link, .sharing-tool').forEach(el => el.remove());
-                    renderReading2(title, section.innerHTML, specificTitleEl, display, controls);
-                    found = true;
+                    const content = section.innerHTML;
+
+                    localStorage.setItem(cacheKey, JSON.stringify({ title, content }));
+                    renderReading2(title, content, specificTitleEl, display, controls);
+                    success = true;
                 }
             }
-        } catch (err) { console.warn("Reading II search failed"); }
+        } catch (err) { 
+            console.warn("Reading 2 proxy failed, trying next..."); 
+        }
     }
 
-    // Ak sa nič nenašlo (všedný deň), zobrazíme správu
-    if (!found) {
-        display.innerHTML = `
-            <div class="text-center py-10 opacity-70">
-                <i class="fa-solid fa-book-open text-bible-gold text-4xl mb-4"></i>
-                <p class="text-white font-sans text-sm uppercase tracking-widest">No Second Reading Today</p>
-                <p class="text-gray-400 text-xs mt-2">The Second Reading is typically proclaimed on Sundays and major Feasts.</p>
-            </div>
-        `;
-        controls.classList.add('hidden');
+    if (!success) {
+        display.innerHTML = "<p class='text-center text-red-400 font-sans uppercase text-[10px] mt-4'>Connection error or no Second Reading today.</p>";
     }
 }
 
@@ -2789,16 +2835,19 @@ function renderReading2(title, content, titleEl, contentEl, controlsEl) {
 function shareReading2() {
     const url = window.location.href;
     const btnText = document.getElementById('share-text-reading2');
-    if (navigator.share) {
-        navigator.share({ title: "Today's Second Reading", url }).catch(() => copyToClipboardReading2(url, btnText));
-    } else { copyToClipboardReading2(url, btnText); }
+    copyToClipboardReading2(url, btnText);
 }
 
 function copyToClipboardReading2(text, el) {
     const orig = el.innerText;
-    const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
-    document.execCommand('copy'); document.body.removeChild(ta);
-    el.innerText = "Link Copied!"; setTimeout(() => el.innerText = orig, 2000);
+    const ta = document.createElement("textarea"); 
+    ta.value = text; 
+    document.body.appendChild(ta); 
+    ta.select();
+    document.execCommand('copy'); 
+    document.body.removeChild(ta);
+    el.innerText = "Link Copied!"; 
+    setTimeout(() => el.innerText = orig, 2000);
 }
 
 document.addEventListener('DOMContentLoaded', getDailyReading2);
