@@ -2726,11 +2726,11 @@ document.addEventListener('DOMContentLoaded', getDailyPsalm);
             <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl overflow-hidden article-hidden" 
                  style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
                 
-                <div id="reading2-specific-title" class="text-bible-gold font-serif italic text-xl md:text-2xl mb-8 border-b border-white/10 pb-4 hidden text-center md:text-left">
+                <div id="r2-specific-title" class="text-bible-gold font-serif italic text-xl md:text-2xl mb-8 border-b border-white/10 pb-4 hidden text-center md:text-left">
                 </div>
 
-                <div id="reading2-content">
-                    <div id="reading2-loader" class="flex flex-col items-center justify-center py-20">
+                <div id="r2-content">
+                    <div id="r2-loader" class="flex flex-col items-center justify-center py-20">
                         <div class="relative">
                             <i class="fa-solid fa-book-bible text-bible-gold/50 text-5xl animate-pulse"></i>
                         </div>
@@ -2738,10 +2738,10 @@ document.addEventListener('DOMContentLoaded', getDailyPsalm);
                     </div>
                 </div>
 
-                <div id="reading2-controls" class="mt-12 flex flex-wrap justify-center gap-4 hidden border-t border-white/5 pt-8">
-                    <button onclick="shareReading2()" class="group flex items-center gap-3 px-8 py-3.5 bg-bible-gold text-[#020617] rounded-2xl font-black hover:bg-white transition-all shadow-xl text-xs uppercase tracking-widest">
+                <div id="r2-controls" class="mt-12 flex flex-wrap justify-center gap-4 hidden border-t border-white/5 pt-8">
+                    <button onclick="shareR2()" class="group flex items-center gap-3 px-8 py-3.5 bg-bible-gold text-[#020617] rounded-2xl font-black hover:bg-white transition-all shadow-xl text-xs uppercase tracking-widest">
                         <i class="fa-solid fa-link group-hover:rotate-12 transition-transform"></i>
-                        <span id="share-text-reading2">Share Link</span>
+                        <span id="share-text-r2">Share Link</span>
                     </button>
                 </div>
             </div>
@@ -2750,41 +2750,40 @@ document.addEventListener('DOMContentLoaded', getDailyPsalm);
 </div>
 
 <style>
-    .reading2-body { font-family: 'Georgia', serif; color: #e2e8f0; line-height: 2; font-size: 1.25rem; }
-    .reading2-body b, .reading2-body strong { color: #d4af37; display: block; margin-top: 1.5rem; font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; }
-    .reading2-body p { margin-bottom: 1rem; font-style: italic; }
-    .reading2-body audio, .reading2-body .audio-link, .reading2-body .address, .reading2-body h3, .reading2-body .name, .reading2-body .sharing-tool { display: none !important; }
+    .r2-body { font-family: 'Georgia', serif; color: #e2e8f0; line-height: 2; font-size: 1.25rem; }
+    .r2-body b, .r2-body strong { color: #d4af37; display: block; margin-top: 1.5rem; font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; }
+    .r2-body p { margin-bottom: 1rem; font-style: italic; }
+    .r2-body audio, .r2-body .audio-link, .r2-body .address, .r2-body h3, .r2-body .name, .r2-body .sharing-tool { display: none !important; }
 </style>
 
 <script>
-async function getDailyReading2() {
-    const display = document.getElementById('reading2-content');
-    const specificTitleEl = document.getElementById('reading2-specific-title');
-    const controls = document.getElementById('reading2-controls');
+async function getDailyR2() {
+    const displayR2 = document.getElementById('r2-content');
+    const titleElR2 = document.getElementById('r2-specific-title');
+    const controlsR2 = document.getElementById('r2-controls');
     
     const d = new Date();
     const dateStr = `${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}${d.getFullYear().toString().slice(-2)}`;
-    const cacheKey = `reading2_v_sync_${dateStr}`; // Unikátny kľúč
+    const cacheKey = `r2_v_final_${dateStr}`;
 
-    const cachedData = localStorage.getItem(cacheKey);
-    if (cachedData) {
-        const parsed = JSON.parse(cachedData);
-        renderReading2(parsed.title, parsed.content, specificTitleEl, display, controls);
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+        const p = JSON.parse(cached);
+        renderR2(p.title, p.content, titleElR2, displayR2, controlsR2);
         return;
     }
 
     const targetUrl = `https://bible.usccb.org/bible/readings/${dateStr}.cfm`;
     const proxyList = [
         { url: `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}&ts=${Date.now()}`, type: 'json' },
-        { url: `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`, type: 'text' },
-        { url: `https://thingproxy.freeboard.io/fetch/${targetUrl}`, type: 'text' }
+        { url: `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`, type: 'text' }
     ];
 
     let success = false;
     for (let proxy of proxyList) {
         if (success) break;
         try {
-            const response = await fetch(proxy.url, { credentials: 'omit' });
+            const response = await fetch(proxy.url);
             if (!response.ok) throw new Error();
 
             let html = (proxy.type === 'json') ? (await response.json()).contents : await response.text();
@@ -2792,65 +2791,61 @@ async function getDailyReading2() {
             
             const allNames = Array.from(doc.querySelectorAll('.name'));
             
-            // KĽÚČOVÁ ZMENA: Hľadáme "Reading 2" namiesto "Reading"
-            const readingNode = allNames.find(el => {
+            // Hľadáme uzol "Reading 2" (trim() odstráni medzeru na konci)
+            const node = allNames.find(el => {
                 const txt = el.textContent.trim();
-                return txt.includes('Reading 2') || txt.includes('Reading II');
+                return txt === 'Reading 2' || txt === 'Reading II' || txt.includes('Reading 2');
             });
 
-            if (readingNode) {
-                let title = readingNode.nextElementSibling?.classList.contains('address') 
-                              ? readingNode.nextElementSibling.innerText.trim() 
-                              : readingNode.innerText.trim();
+            if (node) {
+                let title = node.nextElementSibling?.classList.contains('address') 
+                              ? node.nextElementSibling.innerText.trim() 
+                              : node.innerText.trim();
 
-                let section = readingNode.closest('.line-item')?.nextElementSibling || 
-                               readingNode.closest('.content-header')?.nextElementSibling;
+                let section = node.closest('.line-item')?.nextElementSibling || 
+                              node.closest('.content-header')?.nextElementSibling;
                                 
                 if (section) {
                     section.querySelectorAll('.user-facing-audio, .audio-link, .sharing-tool').forEach(el => el.remove());
                     const content = section.innerHTML;
 
                     localStorage.setItem(cacheKey, JSON.stringify({ title, content }));
-                    renderReading2(title, content, specificTitleEl, display, controls);
+                    renderR2(title, content, titleElR2, displayR2, controlsR2);
                     success = true;
                 }
             }
         } catch (err) { 
-            console.warn("Reading 2 proxy failed, trying next..."); 
+            console.warn("R2 Proxy failed, trying next..."); 
         }
     }
 
     if (!success) {
-        display.innerHTML = "<p class='text-center text-red-400 font-sans uppercase text-[10px] mt-4'>Connection error or no Second Reading today.</p>";
+        displayR2.innerHTML = "<p class='text-center text-gray-500 font-sans uppercase text-[10px] mt-4'>No Second Reading available for today.</p>";
     }
 }
 
-function renderReading2(title, content, titleEl, contentEl, controlsEl) {
+function renderR2(title, content, titleEl, contentEl, controlsEl) {
     titleEl.innerText = title;
     titleEl.classList.remove('hidden');
-    contentEl.innerHTML = `<div class="reading2-body">${content}</div>`;
+    contentEl.innerHTML = `<div class="r2-body">${content}</div>`;
     controlsEl.classList.remove('hidden');
 }
 
-function shareReading2() {
+function shareR2() {
     const url = window.location.href;
-    const btnText = document.getElementById('share-text-reading2');
-    copyToClipboardReading2(url, btnText);
-}
-
-function copyToClipboardReading2(text, el) {
-    const orig = el.innerText;
+    const btnText = document.getElementById('share-text-r2');
     const ta = document.createElement("textarea"); 
-    ta.value = text; 
-    document.body.appendChild(ta); 
-    ta.select();
-    document.execCommand('copy'); 
-    document.body.removeChild(ta);
-    el.innerText = "Link Copied!"; 
-    setTimeout(() => el.innerText = orig, 2000);
+    ta.value = url; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    const orig = btnText.innerText;
+    btnText.innerText = "Link Copied!"; 
+    setTimeout(() => btnText.innerText = orig, 2000);
 }
 
-document.addEventListener('DOMContentLoaded', getDailyReading2);
+// Spustenie s oneskorením po Scripture
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(getDailyR2, 500);
+});
 </script>
 <div id="view-alleluia" class="view-section hidden">
     <section id="alleluia" class="pt-24 pb-12 relative overflow-hidden">
