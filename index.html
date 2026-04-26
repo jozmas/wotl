@@ -187,6 +187,7 @@
 
             <div class="flex items-center border-r border-white/5 px-1">
                 <button onclick="navigateTo('holymass')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Mass</button>
+                <button onclick="navigateTo('hymns')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Hymns</button>
                 <button onclick="navigateTo('saints')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Saints</button>
                 <button onclick="navigateTo('prayers')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Rosary</button>
                 <button onclick="navigateTo('home', 'miracles')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Miracles</button>
@@ -245,6 +246,7 @@
 
                     <p class="text-[10px] text-gray-500 font-black px-5 mt-6 mb-2 uppercase tracking-[0.2em] opacity-80">Devotionals</p>
                     <button onclick="navigateTo('holymass')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Holy Mass</button>
+                    <button onclick="navigateTo('hymns')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Hymns</button>
                     <button onclick="navigateTo('saints')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Saints</button>
                     <button onclick="navigateTo('prayers')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Rosary</button>
                     <button onclick="navigateTo('home', 'miracles')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Miracles of Jesus</button>
@@ -2200,6 +2202,103 @@
         </div>
     </section>
 </div>
+<div id="view-hymns" class="view-section hidden">
+    <section class="pt-24 pb-12">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-10">
+                <span class="text-bible-gold font-sans font-bold tracking-[0.3em] uppercase text-xs">Dynamic Lectionary</span>
+                <h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic">
+                    Daily <span class="text-bible-gold text-stroke-gold">Hymns</span>
+                </h2>
+                <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
+            </div>
+
+            <div id="hymns-container" class="grid gap-4">
+                <div id="hymns-loader" class="text-center py-20">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-bible-gold"></div>
+                    <p class="text-gray-500 text-[10px] uppercase tracking-widest mt-4">Syncing with calendar...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+/**
+ * DYNAMIC HYMNARY SCRAPER
+ * Synchronizes with the current date's lectionary on Hymnary.org
+ */
+async function syncHymnsWithCalendar() {
+    const container = document.getElementById('hymns-container');
+    if (!container) return;
+
+    // Používame proxy na načítanie HTML z Hymnary
+    const targetUrl = 'https://hymnary.org/browse/lectionary';
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}&ts=${new Date().getTime()}`;
+
+    try {
+        const response = await fetch(proxyUrl);
+        if (!response.ok) throw new Error('Proxy unreachable');
+        
+        const data = await response.json();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data.contents, 'text/html');
+
+        // Hymnary.org používa pre odporúčané piesne odkazy v rámci špecifických divov
+        // Hľadáme linky v sekciách, ktoré obsahujú texty piesní (/text/)
+        const links = Array.from(doc.querySelectorAll('a[href*="/text/"]'));
+        
+        if (links.length > 0) {
+            container.innerHTML = ''; // Vymazať loader
+            
+            // Odstránime duplikáty a obmedzíme na 8 najlepších výsledkov
+            const uniqueTitles = new Set();
+            let addedCount = 0;
+
+            links.forEach(link => {
+                const title = link.innerText.trim();
+                
+                // Filtrujeme krátke alebo nerelevantné texty
+                if (title.length > 3 && !uniqueTitles.has(title) && addedCount < 8) {
+                    uniqueTitles.add(title);
+                    addedCount++;
+
+                    // Získame informáciu o zdroji (text za linkom)
+                    const infoText = link.parentElement?.innerText
+                        .replace(title, '')
+                        .replace(/\s+/g, ' ')
+                        .trim()
+                        .substring(0, 80) || "Lectionary Suggestion";
+
+                    container.innerHTML += `
+                        <div class="glass p-5 rounded-2xl border border-white/5 flex items-center gap-5 group hover:bg-white/10 transition-all duration-500 animate-fade-in">
+                            <div class="w-12 h-12 rounded-xl bg-bible-gold/10 flex items-center justify-center text-bible-gold group-hover:bg-bible-gold group-hover:text-black transition-all">
+                                <i class="fa-solid fa-music"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-white font-bold text-lg leading-tight group-hover:text-bible-gold transition-colors">${title}</h4>
+                                <p class="text-gray-500 text-[10px] uppercase tracking-widest mt-1 italic">${infoText}...</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        } else {
+            throw new Error('No hymns found in current HTML');
+        }
+    } catch (err) {
+        console.error("Calendar Sync Error:", err);
+        container.innerHTML = `
+            <div class="text-center py-10 opacity-50">
+                <p class="text-white text-sm tracking-widest uppercase">Currently updating music database</p>
+                <p class="text-gray-500 text-[10px] mt-2 italic text-balance">Please check back in a few minutes.</p>
+            </div>
+        `;
+    }
+}
+
+// Spustiť pri načítaní
+document.addEventListener('DOMContentLoaded', syncHymnsWithCalendar);
+</script>
 <div id="view-saints" class="view-section pt-32 pb-20 hidden">
     <section id="saints" class="px-6 relative overflow-hidden">
         <div class="max-w-7xl mx-auto">
