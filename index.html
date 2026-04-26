@@ -2716,32 +2716,29 @@ document.addEventListener('DOMContentLoaded', getDailyPsalm);
 <div id="view-reading2" class="view-section hidden">
     <section id="reading2" class="pt-24 pb-12 relative overflow-hidden">
         <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-10 article-hidden">
+            <div class="text-center mb-10">
                 <h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic leading-tight">
                     Second <span class="text-bible-gold text-stroke-gold">Reading</span>
                 </h2>
                 <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
             </div>
 
-            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl overflow-hidden article-hidden" 
+            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl overflow-hidden" 
                  style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
                 
-                <div id="r2-specific-title" class="text-bible-gold font-serif italic text-xl md:text-2xl mb-8 border-b border-white/10 pb-4 hidden text-center md:text-left">
-                </div>
+                <div id="reading2-specific-title" class="text-bible-gold font-serif italic text-xl md:text-2xl mb-8 border-b border-white/10 pb-4 hidden text-center md:text-left"></div>
 
-                <div id="r2-content">
-                    <div id="r2-loader" class="flex flex-col items-center justify-center py-20">
-                        <div class="relative">
-                            <i class="fa-solid fa-book-bible text-bible-gold/50 text-5xl animate-pulse"></i>
-                        </div>
-                        <p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Opening the Second Reading...</p>
+                <div id="reading2-content">
+                    <div id="reading2-loader" class="flex flex-col items-center justify-center py-20">
+                        <i class="fa-solid fa-book-open text-bible-gold/50 text-5xl animate-pulse"></i>
+                        <p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Fetching Second Reading...</p>
                     </div>
                 </div>
 
-                <div id="r2-controls" class="mt-12 flex flex-wrap justify-center gap-4 hidden border-t border-white/5 pt-8">
-                    <button onclick="shareR2()" class="group flex items-center gap-3 px-8 py-3.5 bg-bible-gold text-[#020617] rounded-2xl font-black hover:bg-white transition-all shadow-xl text-xs uppercase tracking-widest">
-                        <i class="fa-solid fa-link group-hover:rotate-12 transition-transform"></i>
-                        <span id="share-text-r2">Share Link</span>
+                <div id="reading2-controls" class="mt-12 flex justify-center hidden border-t border-white/5 pt-8">
+                    <button onclick="shareReading2()" class="group flex items-center gap-3 px-8 py-3.5 bg-bible-gold text-[#020617] rounded-2xl font-black hover:bg-white transition-all text-xs uppercase tracking-widest">
+                        <i class="fa-solid fa-link"></i>
+                        <span>Share Link</span>
                     </button>
                 </div>
             </div>
@@ -2749,133 +2746,71 @@ document.addEventListener('DOMContentLoaded', getDailyPsalm);
     </section>
 </div>
 
-<style>
-    .r2-body { font-family: 'Georgia', serif; color: #e2e8f0; line-height: 2; font-size: 1.25rem; }
-    .r2-body b, .r2-body strong { color: #d4af37; display: block; margin-top: 1.5rem; font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; }
-    .r2-body p { margin-bottom: 1rem; font-style: italic; }
-    .r2-body audio, .r2-body .audio-link, .r2-body .address, .r2-body h3, .r2-body .name, .r2-body .sharing-tool { display: none !important; }
-</style>
-
 <script>
-async function getDailyR2() {
-    const displayR2 = document.getElementById('r2-content');
-    const titleElR2 = document.getElementById('r2-specific-title');
-    const controlsR2 = document.getElementById('r2-controls');
+async function getDailyReading2() {
+    const display = document.getElementById('reading2-content');
+    const titleEl = document.getElementById('reading2-specific-title');
+    const controls = document.getElementById('reading2-controls');
     
     const d = new Date();
-    const dateStr = `${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}${d.getFullYear().toString().slice(-2)}`;
-    const cacheKey = `r2_v_final_${dateStr}`;
+    const ds = `${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}${d.getFullYear().toString().slice(-2)}`;
+    
+    try {
+        const resp = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://bible.usccb.org/bible/readings/'+ds+'.cfm')}&ts=${Date.now()}`);
+        const json = await resp.json();
+        const doc = new DOMParser().parseFromString(json.contents, 'text/html');
 
-    const cached = localStorage.getItem(cacheKey);
-    if (cached) {
-        const p = JSON.parse(cached);
-        renderR2(p.title, p.content, titleElR2, displayR2, controlsR2);
-        return;
-    }
+        // Hľadáme uzol, ktorý obsahuje "Reading 2" bez ohľadu na medzery
+        const nodes = Array.from(doc.querySelectorAll('.name'));
+        const target = nodes.find(el => el.textContent.toLowerCase().includes('reading 2') || el.textContent.toLowerCase().includes('reading ii'));
 
-    const targetUrl = `https://bible.usccb.org/bible/readings/${dateStr}.cfm`;
-    const proxyList = [
-        { url: `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}&ts=${Date.now()}`, type: 'json' },
-        { url: `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`, type: 'text' }
-    ];
+        if (target) {
+            const parent = target.closest('.line-item');
+            const title = parent.querySelector('.address')?.innerText.trim() || "Second Reading";
+            const content = parent.nextElementSibling?.innerHTML;
 
-    let success = false;
-    for (let proxy of proxyList) {
-        if (success) break;
-        try {
-            const response = await fetch(proxy.url);
-            if (!response.ok) throw new Error();
-
-            let html = (proxy.type === 'json') ? (await response.json()).contents : await response.text();
-            const doc = new DOMParser().parseFromString(html, 'text/html');
-            
-            const allNames = Array.from(doc.querySelectorAll('.name'));
-            
-            // Hľadáme uzol "Reading 2" (trim() odstráni medzeru na konci)
-            const node = allNames.find(el => {
-                const txt = el.textContent.trim();
-                return txt === 'Reading 2' || txt === 'Reading II' || txt.includes('Reading 2');
-            });
-
-            if (node) {
-                let title = node.nextElementSibling?.classList.contains('address') 
-                              ? node.nextElementSibling.innerText.trim() 
-                              : node.innerText.trim();
-
-                let section = node.closest('.line-item')?.nextElementSibling || 
-                              node.closest('.content-header')?.nextElementSibling;
-                                
-                if (section) {
-                    section.querySelectorAll('.user-facing-audio, .audio-link, .sharing-tool').forEach(el => el.remove());
-                    const content = section.innerHTML;
-
-                    localStorage.setItem(cacheKey, JSON.stringify({ title, content }));
-                    renderR2(title, content, titleElR2, displayR2, controlsR2);
-                    success = true;
-                }
+            if (content) {
+                titleEl.innerText = title;
+                titleEl.classList.remove('hidden');
+                display.innerHTML = `<div class="reading2-body">${content}</div>`;
+                // Vyčistenie audia z obsahu
+                display.querySelectorAll('.user-facing-audio, .audio-link, button').forEach(el => el.remove());
+                controls.classList.remove('hidden');
+                return;
             }
-        } catch (err) { 
-            console.warn("R2 Proxy failed, trying next..."); 
         }
+        display.innerHTML = "<p class='text-center text-gray-500 py-10 uppercase text-[10px] tracking-widest'>No Second Reading for today.</p>";
+    } catch (e) {
+        display.innerHTML = "<p class='text-center text-red-400 py-10 uppercase text-[10px]'>Connection error.</p>";
     }
-
-    if (!success) {
-        displayR2.innerHTML = "<p class='text-center text-gray-500 font-sans uppercase text-[10px] mt-4'>No Second Reading available for today.</p>";
-    }
 }
-
-function renderR2(title, content, titleEl, contentEl, controlsEl) {
-    titleEl.innerText = title;
-    titleEl.classList.remove('hidden');
-    contentEl.innerHTML = `<div class="r2-body">${content}</div>`;
-    controlsEl.classList.remove('hidden');
-}
-
-function shareR2() {
-    const url = window.location.href;
-    const btnText = document.getElementById('share-text-r2');
-    const ta = document.createElement("textarea"); 
-    ta.value = url; document.body.appendChild(ta); ta.select();
-    document.execCommand('copy'); document.body.removeChild(ta);
-    const orig = btnText.innerText;
-    btnText.innerText = "Link Copied!"; 
-    setTimeout(() => btnText.innerText = orig, 2000);
-}
-
-// Spustenie s oneskorením po Scripture
-document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(getDailyR2, 500);
-});
 </script>
 <div id="view-alleluia" class="view-section hidden">
     <section id="alleluia" class="pt-24 pb-12 relative overflow-hidden">
         <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-10 article-hidden">
+            <div class="text-center mb-10">
                 <h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic leading-tight">
                     Gospel <span class="text-bible-gold text-stroke-gold">Acclamation</span>
                 </h2>
                 <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
             </div>
 
-            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl overflow-hidden article-hidden" 
+            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl overflow-hidden" 
                  style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
                 
-                <div id="alleluia-specific-title" class="text-bible-gold font-serif italic text-xl md:text-2xl mb-8 border-b border-white/10 pb-4 hidden text-center md:text-left">
-                </div>
+                <div id="alleluia-specific-title" class="text-bible-gold font-serif italic text-xl md:text-2xl mb-8 border-b border-white/10 pb-4 hidden text-center md:text-left"></div>
 
                 <div id="alleluia-content">
                     <div id="alleluia-loader" class="flex flex-col items-center justify-center py-20">
-                        <div class="relative">
-                            <i class="fa-solid fa-cross text-bible-gold/50 text-5xl animate-pulse"></i>
-                        </div>
+                        <i class="fa-solid fa-cross text-bible-gold/50 text-5xl animate-pulse"></i>
                         <p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Preparing the Alleluia...</p>
                     </div>
                 </div>
 
-                <div id="alleluia-controls" class="mt-12 flex flex-wrap justify-center gap-4 hidden border-t border-white/5 pt-8">
-                    <button onclick="shareAlleluia()" class="group flex items-center gap-3 px-8 py-3.5 bg-bible-gold text-[#020617] rounded-2xl font-black hover:bg-white transition-all shadow-xl text-xs uppercase tracking-widest">
-                        <i class="fa-solid fa-link group-hover:rotate-12 transition-transform"></i>
-                        <span id="share-text-alleluia">Share Link</span>
+                <div id="alleluia-controls" class="mt-12 flex justify-center hidden border-t border-white/5 pt-8">
+                    <button onclick="shareAlleluia()" class="group flex items-center gap-3 px-8 py-3.5 bg-bible-gold text-[#020617] rounded-2xl font-black hover:bg-white transition-all text-xs uppercase tracking-widest">
+                        <i class="fa-solid fa-link"></i>
+                        <span>Share Link</span>
                     </button>
                 </div>
             </div>
@@ -2883,102 +2818,42 @@ document.addEventListener('DOMContentLoaded', () => {
     </section>
 </div>
 
-<style>
-    .alleluia-body { font-family: 'Georgia', serif; color: #e2e8f0; line-height: 2; font-size: 1.5rem; text-align: center; }
-    .alleluia-body b, .alleluia-body strong { color: #d4af37; display: block; margin-bottom: 1rem; font-weight: 800; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.2em; }
-    .alleluia-body p { margin-bottom: 1.5rem; font-style: italic; color: #fff; }
-    /* Skrytie nepotrebných USCCB prvkov */
-    .alleluia-body audio, .alleluia-body .audio-link, .alleluia-body .address, .alleluia-body h3, .alleluia-body .name, .alleluia-body .sharing-tool { display: none !important; }
-</style>
-
 <script>
 async function getDailyAlleluia() {
     const display = document.getElementById('alleluia-content');
-    const specificTitleEl = document.getElementById('alleluia-specific-title');
+    const titleEl = document.getElementById('alleluia-specific-title');
     const controls = document.getElementById('alleluia-controls');
     
     const d = new Date();
-    const dateStr = `${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}${d.getFullYear().toString().slice(-2)}`;
-    const cacheKey = `alleluia_${dateStr}`;
+    const ds = `${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}${d.getFullYear().toString().slice(-2)}`;
+    
+    try {
+        const resp = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://bible.usccb.org/bible/readings/'+ds+'.cfm')}&ts=${Date.now()}`);
+        const json = await resp.json();
+        const doc = new DOMParser().parseFromString(json.contents, 'text/html');
 
-    const cachedData = localStorage.getItem(cacheKey);
-    if (cachedData) {
-        const parsed = JSON.parse(cachedData);
-        renderAlleluia(parsed.title, parsed.content, specificTitleEl, display, controls);
-        return;
-    }
+        // Hľadáme "Gospel Acclamation" alebo "Alleluia"
+        const nodes = Array.from(doc.querySelectorAll('.name'));
+        const target = nodes.find(el => el.textContent.toLowerCase().includes('acclamation') || el.textContent.toLowerCase().includes('alleluia'));
 
-    const targetUrl = `https://bible.usccb.org/bible/readings/${dateStr}.cfm`;
-    const proxyList = [
-        { url: `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}&ts=${Date.now()}`, type: 'json' },
-        { url: `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`, type: 'text' },
-        { url: `https://thingproxy.freeboard.io/fetch/${targetUrl}`, type: 'text' }
-    ];
+        if (target) {
+            const parent = target.closest('.line-item');
+            const content = parent.nextElementSibling?.innerHTML;
 
-    let success = false;
-    for (let proxy of proxyList) {
-        if (success) break;
-        try {
-            const response = await fetch(proxy.url);
-            if (!response.ok) throw new Error();
-
-            let html = (proxy.type === 'json') ? (await response.json()).contents : await response.text();
-            const doc = new DOMParser().parseFromString(html, 'text/html');
-            
-            // Hľadáme Gospel Acclamation
-            const acclamationNode = Array.from(doc.querySelectorAll('.name')).find(el => {
-                const txt = el.textContent.trim();
-                return txt.includes('Gospel Acclamation');
-            });
-
-            if (acclamationNode) {
-                let title = acclamationNode.nextElementSibling?.classList.contains('address') 
-                             ? acclamationNode.nextElementSibling.innerText.trim() 
-                             : "Alleluia";
-
-                let section = acclamationNode.closest('.line-item')?.nextElementSibling || 
-                              acclamationNode.closest('.content-header')?.nextElementSibling;
-                
-                if (section) {
-                    section.querySelectorAll('.user-facing-audio, .audio-link, .sharing-tool').forEach(el => el.remove());
-                    const content = section.innerHTML;
-
-                    localStorage.setItem(cacheKey, JSON.stringify({ title, content }));
-                    renderAlleluia(title, content, specificTitleEl, display, controls);
-                    success = true;
-                }
+            if (content) {
+                titleEl.innerText = "Alleluia";
+                titleEl.classList.remove('hidden');
+                display.innerHTML = `<div class="alleluia-body text-center">${content}</div>`;
+                display.querySelectorAll('.user-facing-audio, .audio-link, button').forEach(el => el.remove());
+                controls.classList.remove('hidden');
+                return;
             }
-        } catch (err) { console.warn("Alleluia proxy failed, trying next..."); }
+        }
+        display.innerHTML = "<p class='text-center text-gray-500 py-10 uppercase text-[10px]'>Unavailable today.</p>";
+    } catch (e) {
+        display.innerHTML = "<p class='text-center text-red-400 py-10 uppercase text-[10px]'>Connection error.</p>";
     }
-
-    if (!success) {
-        display.innerHTML = "<p class='text-center text-red-400 font-sans uppercase text-[10px] mt-4'>Acclamation unavailable. Please refresh.</p>";
-    }
 }
-
-function renderAlleluia(title, content, titleEl, contentEl, controlsEl) {
-    titleEl.innerText = title;
-    titleEl.classList.remove('hidden');
-    contentEl.innerHTML = `<div class="alleluia-body">${content}</div>`;
-    controlsEl.classList.remove('hidden');
-}
-
-function shareAlleluia() {
-    const url = window.location.href;
-    const btnText = document.getElementById('share-text-alleluia');
-    if (navigator.share) {
-        navigator.share({ title: "Today's Alleluia", url }).catch(() => copyToClipboardAlleluia(url, btnText));
-    } else { copyToClipboardAlleluia(url, btnText); }
-}
-
-function copyToClipboardAlleluia(text, el) {
-    const orig = el.innerText;
-    const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
-    document.execCommand('copy'); document.body.removeChild(ta);
-    el.innerText = "Link Copied!"; setTimeout(() => el.innerText = orig, 2000);
-}
-
-document.addEventListener('DOMContentLoaded', getDailyAlleluia);
 </script>
     <footer class="bg-black/60 backdrop-blur-xl py-12 border-t border-white/5 text-center">
         <div class="max-w-7xl mx-auto px-6 flex flex-col items-center gap-6">
