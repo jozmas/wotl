@@ -188,6 +188,7 @@
             <div class="flex items-center border-r border-white/5 px-1">
                 <button onclick="navigateTo('holymass')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Mass</button>
                 <button onclick="navigateTo('hymns')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Hymns</button>
+                <button onclick="navigateTo('prayer')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Prayers</button>
                 <button onclick="navigateTo('saints')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Saints</button>
                 <button onclick="navigateTo('prayers')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Rosary</button>
                 <button onclick="navigateTo('home', 'miracles')" class="nav-link text-[10px] xl:text-[11px] text-gray-400 hover:text-white px-1.5 py-1">Miracles</button>
@@ -247,6 +248,7 @@
                     <p class="text-[10px] text-gray-500 font-black px-5 mt-6 mb-2 uppercase tracking-[0.2em] opacity-80">Devotionals</p>
                     <button onclick="navigateTo('holymass')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Holy Mass</button>
                     <button onclick="navigateTo('hymns')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Hymns</button>
+                    <button onclick="navigateTo('prayer')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Prayers</button>
                     <button onclick="navigateTo('saints')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Saints</button>
                     <button onclick="navigateTo('prayers')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Rosary</button>
                     <button onclick="navigateTo('home', 'miracles')" class="text-left text-gray-300 px-5 py-3 hover:bg-white/5 rounded-xl text-sm italic">Miracles of Jesus</button>
@@ -2299,6 +2301,44 @@ async function syncHymnsWithCalendar() {
 // Spustiť pri načítaní
 document.addEventListener('DOMContentLoaded', syncHymnsWithCalendar);
 </script>
+<div id="view-prayer" class="view-section hidden">
+    <section class="pt-24 pb-20 relative overflow-hidden">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="text-bible-gold font-sans font-bold tracking-[0.3em] uppercase text-xs">Spiritual Life</span>
+                <h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic">
+                    Daily <span class="text-bible-gold text-stroke-gold">Prayers</span>
+                </h2>
+                <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
+            </div>
+
+            <div id="prayers-list" class="space-y-12">
+                <article class="prayer-card animate-in fade-in slide-in-from-bottom-8 duration-1000">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-bible-gold/10 rounded-full flex items-center justify-center text-bible-gold mb-6">
+                            <i class="fa-solid fa-dove"></i>
+                        </div>
+                        <h3 class="text-bible-gold font-header text-2xl md:text-3xl font-bold mb-6 italic">To the Holy Spirit</h3>
+                        
+                        <div class="glass p-8 md:p-12 rounded-[3rem] border border-white/10 relative">
+                            <i class="fa-solid fa-quote-left text-bible-gold/20 text-4xl absolute top-6 left-8"></i>
+                            <div class="text-gray-200 font-serif text-lg md:text-xl leading-relaxed space-y-4 italic">
+                                <p>Come, Holy Spirit, fill the hearts of Thy faithful and enkindle in them the fire of Thy love.</p>
+                                <p>Send forth Thy Spirit and they shall be created. And Thou shalt renew the face of the earth.</p>
+                                <p>O, God, who by the light of the Holy Spirit, didst instruct the hearts of the faithful, grant that by the same Holy Spirit we may be truly wise and ever enjoy His consolations, Through Christ Our Lord, Amen.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                </div>
+            
+            <div class="mt-20 text-center">
+                <p class="text-gray-600 text-[10px] uppercase tracking-[0.4em]">Lex Orandi, Lex Credendi</p>
+            </div>
+        </div>
+    </section>
+</div>
 <div id="view-saints" class="view-section pt-32 pb-20 hidden">
     <section id="saints" class="px-6 relative overflow-hidden">
         <div class="max-w-7xl mx-auto">
