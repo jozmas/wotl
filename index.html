@@ -2531,91 +2531,100 @@
     </div>
 </div>
 <script>
+/**
+ * Daily Liturgy Fetcher
+ * Fetches readings, psalms, and acclamations without interfering with Gospel data.
+ */
 async function getDailyLiturgy() {
     const d = new Date();
     const dateStr = `${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}${d.getFullYear().toString().slice(-2)}`;
     
-    // Zmena verzie na v12 vynúti premazanie starej cache s Gospelom
-    const cacheKey = `liturgy_clean_v12_${dateStr}`;
+    // Cache key v25 ensures no legacy Gospel data is pulled from storage
+    const cacheKey = `liturgy_data_v25_${dateStr}`;
 
     const cached = localStorage.getItem(cacheKey);
     if (cached) {
-        renderAll(JSON.parse(cached));
+        renderLiturgy(JSON.parse(cached));
         return;
     }
 
-    const targetUrl = `https://bible.usccb.org/bible/readings/${dateStr}.cfm`;
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}&ts=${Date.now()}`;
+    const providerUrl = `https://bible.usccb.org/bible/readings/${dateStr}.cfm`;
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(providerUrl)}&ts=${Date.now()}`;
 
     try {
         const response = await fetch(proxyUrl);
         const data = await response.json();
         const doc = new DOMParser().parseFromString(data.contents, 'text/html');
 
-        // Tu sťahujeme už len 4 časti, Gospel úplne vynechávame
+        // Extract only required parts. Gospel is intentionally excluded.
         const bundle = {
-            scripture: parsePart(doc, ["Reading 1", "Reading I"]),
-            psalm: parsePart(doc, ["Psalm"]),
-            reading2: parsePart(doc, ["Reading 2", "Reading II"]),
-            alleluia: parsePart(doc, ["Alleluia", "Acclamation"])
+            scripture: extractLiturgyPart(doc, ["Reading 1", "Reading I"]),
+            psalm: extractLiturgyPart(doc, ["Psalm"]),
+            reading2: extractLiturgyPart(doc, ["Reading 2", "Reading II"]),
+            alleluia: extractLiturgyPart(doc, ["Alleluia", "Acclamation"])
         };
 
         localStorage.setItem(cacheKey, JSON.stringify(bundle));
-        renderAll(bundle);
+        renderLiturgy(bundle);
 
     } catch (err) {
-        console.error("Liturgy Fetch failed", err);
+        console.error("Liturgy sync error:", err);
     }
 }
 
-function parsePart(doc, terms) {
-    const nodes = Array.from(doc.querySelectorAll('h3, .name'));
-    const node = nodes.find(el => 
-        terms.some(term => el.textContent.trim().includes(term))
+/**
+ * Parses a specific section from the provider's DOM
+ */
+function extractLiturgyPart(doc, searchTerms) {
+    const elements = Array.from(doc.querySelectorAll('h3, .name'));
+    const targetNode = elements.find(el => 
+        searchTerms.some(term => el.textContent.trim().includes(term))
     );
     
-    if (!node) return null;
+    if (!targetNode) return null;
 
-    const parentBlock = node.closest('.innerblock') || node.parentElement;
-    const addressNode = parentBlock.querySelector('.address');
-    let title = addressNode ? addressNode.innerText.trim() : node.innerText.trim();
+    const container = targetNode.closest('.innerblock') || targetNode.parentElement;
+    const addressArea = container.querySelector('.address');
+    const bodyArea = container.querySelector('.content-body') || targetNode.nextElementSibling;
 
-    const contentBody = parentBlock.querySelector('.content-body') || node.nextElementSibling;
-
-    if (contentBody) {
-        const clean = contentBody.cloneNode(true);
-        // Odstránime nežiaduce USCCB prvky
-        clean.querySelectorAll('.user-facing-audio, .audio-link, .sharing-tool, .action-area').forEach(el => el.remove());
-        return { title, content: clean.innerHTML };
+    if (bodyArea) {
+        const cleanContent = bodyArea.cloneNode(true);
+        // Remove UI clutter (audio players, social buttons, etc.)
+        cleanContent.querySelectorAll('.user-facing-audio, .audio-link, .sharing-tool, .action-area').forEach(el => el.remove());
+        
+        return { 
+            title: addressArea ? addressArea.innerText.trim() : targetNode.innerText.trim(), 
+            content: cleanContent.innerHTML 
+        };
     }
     return null;
 }
 
-function renderAll(bundle) {
-    // Definujeme LEN ID, ktoré tento skript SMIE prepísať
-    // Gospel tu chýba, takže naň skript nikdy nesiahne
-    const config = [
+/**
+ * Renders the fetched content into the designated HTML IDs
+ */
+function renderLiturgy(bundle) {
+    // Gospel is NOT in this list, ensuring your other source is safe.
+    const sections = [
         { id: 'scripture', data: bundle.scripture },
         { id: 'psalm', data: bundle.psalm },
         { id: 'reading2', data: bundle.reading2 },
         { id: 'alleluia', data: bundle.alleluia }
     ];
 
-    config.forEach(item => {
-        const titleEl = document.getElementById(`${item.id}-specific-title`);
-        const contentEl = document.getElementById(`${item.id}-content`);
+    sections.forEach(item => {
+        const titleContainer = document.getElementById(`${item.id}-specific-title`);
+        const contentContainer = document.getElementById(`${item.id}-content`);
         
-        if (item.data && contentEl) {
-            if (titleEl) {
-                titleEl.innerText = item.data.title;
-                titleEl.classList.remove('hidden');
+        if (item.data && contentContainer) {
+            if (titleContainer) {
+                titleContainer.innerText = item.data.title;
+                titleContainer.classList.remove('hidden');
             }
-            contentEl.innerHTML = `<div class="liturgy-body">${item.data.content}</div>`;
-        } else if (contentEl) {
-            // Špeciálny prípad pre Reading 2, ak nie je v balíku
-            if(item.id === 'reading2') {
-                contentEl.innerHTML = "<p class='text-center py-10 opacity-20 text-xs uppercase'>No Second Reading today</p>";
-            }
+            contentContainer.innerHTML = `<div class="liturgy-body">${item.data.content}</div>`;
+        } else if (item.id === 'reading2' && contentContainer) {
+            // Placeholder for days without a second reading
+            contentContainer.innerHTML = "<p class='text-center py-10 opacity-20 text-xs uppercase'>No Second Reading today</p>";
         }
     });
 }
