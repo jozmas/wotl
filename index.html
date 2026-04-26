@@ -2401,159 +2401,206 @@
     </section>
 </div>
 <div id="view-scripture" class="view-section hidden">
-    <section class="pt-24 pb-12">
+    <section class="pt-24 pb-12 relative overflow-hidden">
         <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-10"><h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic">Holy <span class="text-bible-gold text-stroke-gold">Scripture</span></h2><div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div></div>
-            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl" style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
+            <div class="text-center mb-10 article-hidden">
+                <h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic leading-tight">First <span class="text-bible-gold text-stroke-gold">Reading</span></h2>
+                <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
+            </div>
+            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl overflow-hidden article-hidden" style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
                 <div id="scripture-specific-title" class="text-bible-gold font-serif italic text-xl md:text-2xl mb-8 border-b border-white/10 pb-4 hidden text-center md:text-left"></div>
-                <div id="scripture-content"><div class="flex flex-col items-center justify-center py-20"><i class="fa-solid fa-book-bible text-bible-gold/50 text-5xl animate-pulse"></i><p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Opening the Scriptures...</p></div></div>
-                <div id="scripture-controls" class="mt-12 flex justify-center hidden border-t border-white/5 pt-8"><button onclick="shareLink('Reading 1')" class="px-8 py-3.5 bg-bible-gold text-[#020617] rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-white transition-all">SHARE LINK</button></div>
+                <div id="scripture-content">
+                    <div class="flex flex-col items-center justify-center py-20">
+                        <i class="fa-solid fa-book-bible text-bible-gold/50 text-5xl animate-pulse"></i>
+                        <p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Opening the Scriptures...</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 </div>
 
 <div id="view-psalm" class="view-section hidden">
-    <section class="pt-24 pb-12">
+    <section id="psalm" class="pt-24 pb-12 relative overflow-hidden">
         <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-10"><h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic leading-tight">Today's <span class="text-bible-gold text-stroke-gold">Psalm</span></h2><div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div></div>
-            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl" style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
+            <div class="text-center mb-10 article-hidden">
+                <h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic leading-tight">Today's <span class="text-bible-gold text-stroke-gold">Psalm</span></h2>
+                <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
+            </div>
+            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl overflow-hidden article-hidden" style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
                 <div id="psalm-specific-title" class="text-bible-gold font-serif italic text-xl md:text-2xl mb-8 border-b border-white/10 pb-4 hidden text-center md:text-left"></div>
-                <div id="psalm-content"><div class="flex flex-col items-center justify-center py-20"><i class="fa-solid fa-scroll text-bible-gold/50 text-5xl animate-pulse"></i><p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Seeking the Psalm...</p></div></div>
-                <div id="psalm-controls" class="mt-12 flex justify-center hidden border-t border-white/5 pt-8"><button onclick="shareLink('Psalm')" class="px-8 py-3.5 bg-bible-gold text-[#020617] rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-white transition-all">SHARE LINK</button></div>
+                <div id="psalm-content">
+                    <div id="psalm-loader" class="flex flex-col items-center justify-center py-20">
+                        <i class="fa-solid fa-scroll text-bible-gold/50 text-5xl animate-pulse"></i>
+                        <p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Seeking the Psalm...</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 </div>
 
 <div id="view-reading2" class="view-section hidden">
-    <section class="pt-24 pb-12">
+    <section class="pt-24 pb-12 relative overflow-hidden">
         <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-10"><h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic leading-tight">Second <span class="text-bible-gold text-stroke-gold">Reading</span></h2><div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div></div>
-            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl" style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
+            <div class="text-center mb-10 article-hidden">
+                <h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic leading-tight">Second <span class="text-bible-gold text-stroke-gold">Reading</span></h2>
+                <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
+            </div>
+            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl overflow-hidden article-hidden" style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
                 <div id="reading2-specific-title" class="text-bible-gold font-serif italic text-xl md:text-2xl mb-8 border-b border-white/10 pb-4 hidden text-center md:text-left"></div>
-                <div id="reading2-content"><div class="flex flex-col items-center justify-center py-20"><i class="fa-solid fa-book-open text-bible-gold/50 text-5xl animate-pulse"></i><p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Searching for Reading II...</p></div></div>
-                <div id="reading2-controls" class="mt-12 flex justify-center hidden border-t border-white/5 pt-8"><button onclick="shareLink('Reading 2')" class="px-8 py-3.5 bg-bible-gold text-[#020617] rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-white transition-all">SHARE LINK</button></div>
+                <div id="reading2-content">
+                    <div class="flex flex-col items-center justify-center py-20">
+                        <i class="fa-solid fa-book-open text-bible-gold/50 text-5xl animate-pulse"></i>
+                        <p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Seeking the Word...</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 </div>
 
 <div id="view-alleluia" class="view-section hidden">
-    <section class="pt-24 pb-12">
+    <section class="pt-24 pb-12 relative overflow-hidden">
         <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-10"><h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic leading-tight">Gospel <span class="text-bible-gold text-stroke-gold">Acclamation</span></h2><div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div></div>
-            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl" style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
+            <div class="text-center mb-10 article-hidden">
+                <h2 class="font-header text-4xl md:text-6xl font-bold text-white mt-4 uppercase italic leading-tight">Gospel <span class="text-bible-gold text-stroke-gold">Acclamation</span></h2>
+                <div class="w-16 h-1 bg-bible-gold mx-auto mt-6 rounded-full opacity-50"></div>
+            </div>
+            <div class="glass rounded-[3rem] p-8 md:p-16 border border-white/5 relative shadow-2xl overflow-hidden article-hidden" style="background: rgba(255,255,255,0.02); backdrop-filter: blur(20px);">
                 <div id="alleluia-specific-title" class="text-bible-gold font-serif italic text-xl md:text-2xl mb-8 border-b border-white/10 pb-4 hidden text-center md:text-left"></div>
-                <div id="alleluia-content"><div class="flex flex-col items-center justify-center py-20"><i class="fa-solid fa-cross text-bible-gold/50 text-5xl animate-pulse"></i><p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Preparing Alleluia...</p></div></div>
-                <div id="alleluia-controls" class="mt-12 flex justify-center hidden border-t border-white/5 pt-8"><button onclick="shareLink('Alleluia')" class="px-8 py-3.5 bg-bible-gold text-[#020617] rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-white transition-all">SHARE LINK</button></div>
+                <div id="alleluia-content">
+                    <div class="flex flex-col items-center justify-center py-20">
+                        <i class="fa-solid fa-cross text-bible-gold/50 text-5xl animate-pulse"></i>
+                        <p class="text-gray-400 font-sans tracking-[0.2em] uppercase text-[10px] mt-8">Preparing the Alleluia...</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 </div>
 
+<style>
+    .liturgy-body { font-family: 'Georgia', serif; color: #e2e8f0; line-height: 2; font-size: 1.25rem; }
+    .liturgy-body b, .liturgy-body strong { color: #d4af37; display: block; margin-top: 1.5rem; font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; }
+    .liturgy-body p { margin-bottom: 1rem; font-style: italic; }
+    .liturgy-body audio, .liturgy-body .audio-link, .liturgy-body .address, .liturgy-body h3, .liturgy-body .name, .liturgy-body .sharing-tool, .liturgy-body .action-area { display: none !important; }
+    .alleluia-body { text-align: center; }
+</style>
 <script>
-async function loadDailyLiturgy() {
+async function getFullDailyLiturgy() {
     const d = new Date();
     const dateStr = `${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}${d.getFullYear().toString().slice(-2)}`;
-    const targetUrl = `https://bible.usccb.org/bible/readings/${dateStr}.cfm`;
-    
-    // Triple proxy redundancy
-    const proxies = [
-        `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}&callback=?`, // Added callback to bypass some cache
-        `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
-        `https://thingproxy.freeboard.io/fetch/${targetUrl}`
-    ];
+    const cacheKey = `liturgy_full_v3_${dateStr}`;
 
-    let html = "";
-    let success = false;
-
-    for (let url of proxies) {
-        try {
-            const resp = await fetch(url);
-            if (!resp.ok) continue;
-            
-            // Handle AllOrigins JSON wrapper vs direct text proxies
-            if (url.includes('allorigins')) {
-                const data = await resp.text();
-                // Strip the jQuery callback if it exists
-                const jsonStr = data.substring(data.indexOf("({") + 1, data.lastIndexOf("})") + 1);
-                html = JSON.parse(jsonStr).contents;
-            } else {
-                html = await resp.text();
-            }
-
-            if (html && html.length > 1000) { success = true; break; }
-        } catch (e) {
-            console.warn("Proxy attempt failed, moving to next...");
-        }
-    }
-
-    if (!success) {
-        ["scripture", "psalm", "reading2", "alleluia"].forEach(id => {
-            const el = document.getElementById(`${id}-content`);
-            if (el) el.innerHTML = "<p class='text-center text-red-400 text-[10px] py-10 uppercase tracking-widest'>Server Busy. Please refresh.</p>";
-        });
+    const cachedData = localStorage.getItem(cacheKey);
+    if (cachedData) {
+        renderLiturgyBundle(JSON.parse(cachedData));
         return;
     }
 
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    const items = Array.from(doc.querySelectorAll('.line-item'));
-
-    const config = [
-        { id: 'scripture', keys: ['Reading I', 'First Reading'] },
-        { id: 'psalm', keys: ['Psalm'] },
-        { id: 'reading2', keys: ['Reading II', 'Second Reading'] },
-        { id: 'alleluia', keys: ['Acclamation', 'Alleluia', 'Verse before'] }
+    const targetUrl = `https://bible.usccb.org/bible/readings/${dateStr}.cfm`;
+    const proxyList = [
+        { url: `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}&ts=${Date.now()}`, type: 'json' },
+        { url: `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`, type: 'text' }
     ];
 
-    config.forEach(item => {
-        const display = document.getElementById(`${item.id}-content`);
-        const titleEl = document.getElementById(`${item.id}-specific-title`);
-        const controls = document.getElementById(`${item.id}-controls`);
+    let success = false;
 
-        const node = items.find(li => {
-            const name = li.querySelector('.name')?.innerText || "";
-            return item.keys.some(k => name.includes(k));
-        });
+    for (let proxy of proxyList) {
+        if (success) break;
+        try {
+            const response = await fetch(proxy.url, { credentials: 'omit' });
+            if (!response.ok) throw new Error();
 
-        if (node) {
-            const address = node.querySelector('.address')?.innerText || "";
-            const contentBody = node.nextElementSibling;
+            let html = (proxy.type === 'json') ? (await response.json()).contents : await response.text();
+            if (!html) continue;
 
-            if (contentBody && contentBody.classList.contains('content-body')) {
-                const clean = contentBody.cloneNode(true);
-                clean.querySelectorAll('.user-facing-audio, .audio-link, .sharing-tool, button, .name, .address, h3').forEach(el => el.remove());
-                
-                if (titleEl) { titleEl.innerText = address; titleEl.classList.remove('hidden'); }
-                display.innerHTML = `<div class="${item.id}-body">${clean.innerHTML}</div>`;
-                if (controls) controls.classList.remove('hidden');
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            
+            // Hľadáme všetky bloky čítaní (USCCB ich balí do .line-item alebo .content-header)
+            const bundle = {
+                scripture: extractUSCCBSection(doc, "Reading I"),
+                psalm: extractUSCCBSection(doc, "Psalm"),
+                reading2: extractUSCCBSection(doc, "Reading II"),
+                alleluia: extractUSCCBSection(doc, "Gospel Acclamation")
+            };
+
+            // Ak aspoň niečo máme, uložíme to
+            if (bundle.scripture || bundle.psalm) {
+                localStorage.setItem(cacheKey, JSON.stringify(bundle));
+                renderLiturgyBundle(bundle);
+                success = true;
             }
-        } else {
-            display.innerHTML = `<div class="text-center py-20 opacity-30"><i class="fa-solid fa-calendar-xmark text-4xl mb-4"></i><p class="text-[10px] uppercase tracking-widest text-white">Not scheduled today</p></div>`;
+        } catch (err) { console.warn("Proxy failed, trying next..."); }
+    }
+}
+
+function extractUSCCBSection(doc, searchTitle) {
+    // 1. Nájdeme element, ktorý obsahuje názov sekcie (napr. "Reading I")
+    const headers = Array.from(doc.querySelectorAll('.name, h3, h2'));
+    const headerNode = headers.find(el => el.textContent.trim().includes(searchTitle));
+
+    if (!headerNode) return null;
+
+    // 2. Nájdeme najbližší spoločný kontajner čítania
+    const container = headerNode.closest('.line-item') || headerNode.closest('.content-header')?.parentElement;
+    if (!container) return null;
+
+    // 3. Extrahujeme adresu (napr. Sk 4, 8-12)
+    const addressNode = container.querySelector('.address');
+    const title = addressNode ? addressNode.innerText.trim() : headerNode.innerText.trim();
+
+    // 4. Extrahujeme samotný text (nachádza sa zvyčajne v .content-body za kontajnerom)
+    let bodyNode = container.querySelector('.content-body');
+    
+    // Ak nie je vnútri kontajnera, skúsime nasledujúci súrodenecký element
+    if (!bodyNode) {
+        let next = container.nextElementSibling;
+        while (next && !next.classList.contains('content-body')) {
+            if (next.classList.contains('line-item')) break; // Už sme v ďalšom čítaní
+            next = next.nextElementSibling;
+        }
+        bodyNode = next;
+    }
+
+    if (bodyNode) {
+        const clean = bodyNode.cloneNode(true);
+        // Vyčistíme balast (audio, tlačidlá zdieľania atď.)
+        clean.querySelectorAll('.user-facing-audio, .audio-link, .sharing-tool, .action-area').forEach(el => el.remove());
+        return { title, content: clean.innerHTML };
+    }
+    return null;
+}
+
+function renderLiturgyBundle(bundle) {
+    const sections = [
+        { id: 'scripture', data: bundle.scripture },
+        { id: 'psalm', data: bundle.psalm },
+        { id: 'reading2', data: bundle.reading2 },
+        { id: 'alleluia', data: bundle.alleluia }
+    ];
+
+    sections.forEach(s => {
+        const contentEl = document.getElementById(`${s.id}-content`);
+        const titleEl = document.getElementById(`${s.id}-specific-title`);
+        
+        if (s.data && contentEl) {
+            if (titleEl) {
+                titleEl.innerText = s.data.title;
+                titleEl.classList.remove('hidden');
+            }
+            contentEl.innerHTML = `<div class="liturgy-body ${s.id === 'alleluia' ? 'alleluia-center' : ''}">${s.data.content}</div>`;
+        } else if (s.id === 'reading2' && contentEl) {
+            // Ak Reading 2 neexistuje (bežné cez týždeň), skryjeme alebo vypíšeme info
+            contentEl.innerHTML = "<p class='text-center py-10 opacity-30 uppercase text-[10px] tracking-widest'>No Second Reading for today's liturgy</p>";
+            if (titleEl) titleEl.classList.add('hidden');
         }
     });
 }
 
-function shareLink(type) {
-    const url = window.location.href;
-    if (navigator.share) {
-        navigator.share({ title: `Today's ${type}`, url }).catch(() => {});
-    } else {
-        const ta = document.createElement("textarea"); ta.value = url; document.body.appendChild(ta); ta.select();
-        document.execCommand('copy'); document.body.removeChild(ta); alert("Link copied!");
-    }
-}
-
-document.addEventListener('DOMContentLoaded', loadDailyLiturgy);
+document.addEventListener('DOMContentLoaded', getFullDailyLiturgy);
 </script>
-
-<style>
-    .scripture-body, .psalm-body, .reading2-body, .alleluia-body { font-family: 'Georgia', serif; color: #e2e8f0; line-height: 1.8; font-size: 1.15rem; }
-    .psalm-body b, .psalm-body strong { color: #d4af37; display: block; margin-top: 1.5rem; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
-    .alleluia-body { text-align: center; font-style: italic; }
-</style>
-
     <footer class="bg-black/60 backdrop-blur-xl py-12 border-t border-white/5 text-center">
         <div class="max-w-7xl mx-auto px-6 flex flex-col items-center gap-6">
             <span class="font-header font-bold text-2xl text-white">WOTL<span class="text-bible-gold">daily</span></span>
