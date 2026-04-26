@@ -2534,7 +2534,9 @@
 async function getDailyLiturgy() {
     const d = new Date();
     const dateStr = `${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}${d.getFullYear().toString().slice(-2)}`;
-    const cacheKey = `liturgy_full_v8_${dateStr}`;
+    
+    // Zmena verzie na v12 vynúti premazanie starej cache s Gospelom
+    const cacheKey = `liturgy_clean_v12_${dateStr}`;
 
     const cached = localStorage.getItem(cacheKey);
     if (cached) {
@@ -2550,24 +2552,23 @@ async function getDailyLiturgy() {
         const data = await response.json();
         const doc = new DOMParser().parseFromString(data.contents, 'text/html');
 
+        // Tu sťahujeme už len 4 časti, Gospel úplne vynechávame
         const bundle = {
             scripture: parsePart(doc, ["Reading 1", "Reading I"]),
             psalm: parsePart(doc, ["Psalm"]),
             reading2: parsePart(doc, ["Reading 2", "Reading II"]),
-            alleluia: parsePart(doc, ["Alleluia", "Acclamation"]),
-            gospel: parsePart(doc, ["Gospel"])
+            alleluia: parsePart(doc, ["Alleluia", "Acclamation"])
         };
 
         localStorage.setItem(cacheKey, JSON.stringify(bundle));
         renderAll(bundle);
 
     } catch (err) {
-        console.error("Fetch failed", err);
+        console.error("Liturgy Fetch failed", err);
     }
 }
 
 function parsePart(doc, terms) {
-    // Hľadáme v h3 aj v .name (pokryje tvoj zdroj aj iné dni)
     const nodes = Array.from(doc.querySelectorAll('h3, .name'));
     const node = nodes.find(el => 
         terms.some(term => el.textContent.trim().includes(term))
@@ -2575,16 +2576,15 @@ function parsePart(doc, terms) {
     
     if (!node) return null;
 
-    // Adresa je v div.address
     const parentBlock = node.closest('.innerblock') || node.parentElement;
     const addressNode = parentBlock.querySelector('.address');
     let title = addressNode ? addressNode.innerText.trim() : node.innerText.trim();
 
-    // Obsah je v .content-body
     const contentBody = parentBlock.querySelector('.content-body') || node.nextElementSibling;
 
     if (contentBody) {
         const clean = contentBody.cloneNode(true);
+        // Odstránime nežiaduce USCCB prvky
         clean.querySelectorAll('.user-facing-audio, .audio-link, .sharing-tool, .action-area').forEach(el => el.remove());
         return { title, content: clean.innerHTML };
     }
@@ -2592,12 +2592,13 @@ function parsePart(doc, terms) {
 }
 
 function renderAll(bundle) {
+    // Definujeme LEN ID, ktoré tento skript SMIE prepísať
+    // Gospel tu chýba, takže naň skript nikdy nesiahne
     const config = [
         { id: 'scripture', data: bundle.scripture },
         { id: 'psalm', data: bundle.psalm },
         { id: 'reading2', data: bundle.reading2 },
-        { id: 'alleluia', data: bundle.alleluia },
-        { id: 'gospel', data: bundle.gospel }
+        { id: 'alleluia', data: bundle.alleluia }
     ];
 
     config.forEach(item => {
@@ -2611,7 +2612,7 @@ function renderAll(bundle) {
             }
             contentEl.innerHTML = `<div class="liturgy-body">${item.data.content}</div>`;
         } else if (contentEl) {
-            // Ak Reading 2 nie je, vypíšeme to jemne
+            // Špeciálny prípad pre Reading 2, ak nie je v balíku
             if(item.id === 'reading2') {
                 contentEl.innerHTML = "<p class='text-center py-10 opacity-20 text-xs uppercase'>No Second Reading today</p>";
             }
